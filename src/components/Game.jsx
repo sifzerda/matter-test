@@ -13,22 +13,23 @@ const BallPit = () => {
   window.decomp = decomp; // poly-decomp is available globally
 
   useEffect(() => {
+    console.log('Component mounted or updated');
     Matter.use(MatterWrap);
     engine.world.gravity.y = 0;
 
     const render = Render.create({
-      element: gameRef.current,
-      engine,
-      options: {
-        width: 1500,
-        height: 680,
-        wireframes: false
-      }
-    });
-    Render.run(render);
-
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
+        element: gameRef.current,
+        engine,
+        options: {
+          width: 1500,
+          height: 680,
+          wireframes: false
+        }
+      });
+      Render.run(render);
+    
+      const runner = Matter.Runner.create();
+      Matter.Runner.run(runner, engine);
 
   // Helper function to create a random ball
   const createBall = () => {
@@ -57,7 +58,7 @@ const BallPit = () => {
   };
 
     // Create balls
-    const numberOfBalls = 100; // Adjust the number of balls as needed
+    const numberOfBalls = 100;
     const newBalls = [];
     for (let i = 0; i < numberOfBalls; i++) {
       newBalls.push(createBall());
@@ -78,24 +79,24 @@ const BallPit = () => {
     mouseConstraintRef.current = mouseConstraint;
     World.add(engine.world, mouseConstraint);
 
-    // Cleanup event listeners and constraints
     const cleanup = () => {
-      Render.stop(render);
-      World.clear(engine.world);
-      Engine.clear(engine);
-      World.remove(engine.world, mouseConstraintRef.current);
-      mouseConstraintRef.current = null; // Clear the reference
-    };
+        console.log('Cleaning up...');
+        Render.stop(render);
+        World.clear(engine.world);
+        Engine.clear(engine);
+        World.remove(engine.world, mouseConstraintRef.current);
+        mouseConstraintRef.current = null;
+      };
 
     // Attach cleanup function to the window's beforeunload event
     window.addEventListener('beforeunload', cleanup);
 
     return () => {
-      // Remove event listener and perform cleanup
-      window.removeEventListener('beforeunload', cleanup);
-      cleanup();
-    };
-  }, [engine]);
+        console.log('Component will unmount');
+        window.removeEventListener('beforeunload', cleanup);
+        cleanup();
+      };
+    }, [engine]);
 
   return (
     <div className="game-container" ref={gameRef}>
