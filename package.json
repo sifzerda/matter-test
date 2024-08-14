@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "matter-js": "^0.20.0",
+    "matter-wrap": "^0.2.0",
+    "poly-decomp": "^0.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hotkeys-hook": "^4.5.0",
     "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
