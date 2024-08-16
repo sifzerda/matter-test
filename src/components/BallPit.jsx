@@ -7,6 +7,7 @@ const Ballx = () => {
   const [engine] = useState(Engine.create());
   const gameRef = useRef(null);
   const mouseConstraintRef = useRef(null);
+  const ballCountRef = useRef(150); // Track the number of balls
 
   window.decomp = decomp;
 
@@ -40,12 +41,12 @@ const Ballx = () => {
     };
 
     const createBall = () => {
-      const radius = Math.random() * 35 + 5;
+      const radius = Math.random() * 30 + 5;
       const ball = Bodies.circle(Math.random() * 1500, -radius * 2, radius, {
         restitution: 0.5,
         friction: 0.1,
         frictionAir: 0.01,
-        //density: 10, // Increased density
+        density: 0.1, // Increased density
         render: {
           fillStyle: 'transparent',
           strokeStyle: getRandomColor(),
@@ -59,6 +60,7 @@ const Ballx = () => {
         },
       });
       World.add(engine.world, ball);
+      ballCountRef.current += 1; // Increment ball count
       return ball;
     };
 
@@ -68,7 +70,7 @@ const Ballx = () => {
       }
     };
 
-    addInitialBalls(150);
+    addInitialBalls(ballCountRef.current);
 
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
@@ -147,46 +149,46 @@ const Ballx = () => {
 
     World.add(engine.world, [boxLeftWall, boxRightWall, boxBottomWall]);
 
-  // Spinning Platforms
-  const spinningPlatformLength = 280; // Increased length of the platforms
-  const spinningPlatformWidth = 10;   // Width of the platforms
-  const spinningPlatformY = 300;      // Y position of the platforms
+    // Spinning Platforms
+    const spinningPlatformLength = 280; // Increased length of the platforms
+    const spinningPlatformWidth = 10;   // Width of the platforms
+    const spinningPlatformY = 300;      // Y position of the platforms
 
-  const createSpinningPlatform = (x) => {
-    const platform = Bodies.rectangle(x, spinningPlatformY, spinningPlatformLength, spinningPlatformWidth, {
-      angle: 0,
-      render: {
-        fillStyle: '#228B22',
-        strokeStyle: '#000',
-        lineWidth: 1,
-      },
-    });
+    const createSpinningPlatform = (x) => {
+      const platform = Bodies.rectangle(x, spinningPlatformY, spinningPlatformLength, spinningPlatformWidth, {
+        angle: 0,
+        render: {
+          fillStyle: '#228B22',
+          strokeStyle: '#000',
+          lineWidth: 1,
+        },
+      });
 
-    const anchor = Bodies.circle(x, spinningPlatformY, 5, {
-      isStatic: true,
-      render: {
-        visible: true,
-      },
-    });
+      const anchor = Bodies.circle(x, spinningPlatformY, 5, {
+        isStatic: true,
+        render: {
+          visible: true,
+        },
+      });
 
-    const constraint = Constraint.create({
-      bodyA: anchor,
-      bodyB: platform,
-      pointA: { x: 0, y: 0 },
-      pointB: { x: 0, y: 0 },
-      stiffness: 1,
-      render: {
-        visible: false,
-      },
-    });
+      const constraint = Constraint.create({
+        bodyA: anchor,
+        bodyB: platform,
+        pointA: { x: 0, y: 0 },
+        pointB: { x: 0, y: 0 },
+        stiffness: 1,
+        render: {
+          visible: false,
+        },
+      });
 
-    World.add(engine.world, [platform, anchor, constraint]);
+      World.add(engine.world, [platform, anchor, constraint]);
 
-    return platform;
-  };
+      return platform;
+    };
 
-  const spinningPlatform1 = createSpinningPlatform(600);
-  const spinningPlatform2 = createSpinningPlatform(900);
+    const spinningPlatform1 = createSpinningPlatform(600);
+    const spinningPlatform2 = createSpinningPlatform(900);
 
     const handleCollisions = (event) => {
       const pairs = event.pairs;
@@ -194,8 +196,10 @@ const Ballx = () => {
         const { bodyA, bodyB } = pairs[i];
         if (bodyA === boxBottomWall || bodyB === boxBottomWall) {
           const ball = bodyA === boxBottomWall ? bodyB : bodyA;
-          if (ball) {
+          if (ball && ball.label === 'Circle Body') {
             World.remove(engine.world, ball);
+            createBall(); // Create a new ball to replace the removed one
+            ballCountRef.current -= 1; // Decrement ball count
           }
         }
       }
