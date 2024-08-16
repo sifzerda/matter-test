@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Matter, { Engine, Render, World, Bodies, Mouse, MouseConstraint, Events } from 'matter-js';
+import Matter, { Engine, Render, World, Bodies, Mouse, MouseConstraint, Events, Constraint } from 'matter-js';
 import MatterWrap from 'matter-wrap';
 import decomp from 'poly-decomp';
 
@@ -14,7 +14,7 @@ const Ballx = () => {
     console.log('Component mounted');
 
     Matter.use(MatterWrap);
-    engine.world.gravity.y = 0.1;
+    engine.world.gravity.y = 0.35; // Increased gravity
 
     const render = Render.create({
       element: gameRef.current,
@@ -40,11 +40,12 @@ const Ballx = () => {
     };
 
     const createBall = () => {
-      const radius = Math.random() * 40 + 5;
+      const radius = Math.random() * 35 + 5;
       const ball = Bodies.circle(Math.random() * 1500, -radius * 2, radius, {
-        restitution: 1.1,
+        restitution: 0.5,
         friction: 0.1,
         frictionAir: 0.01,
+        //density: 10, // Increased density
         render: {
           fillStyle: 'transparent',
           strokeStyle: getRandomColor(),
@@ -83,12 +84,11 @@ const Ballx = () => {
     World.add(engine.world, mouseConstraint);
 
     const platformWidth = 300;
-    const platformHeight = 20;
+    const platformHeight = 10;
     const platformDistance = 50;
     const angle1 = Math.PI / 5;
     const angle2 = Math.PI / -5;
 
-    // Adjusted Y positions to lower the platforms
     const platformY = 500;
 
     const platform1 = Bodies.rectangle(750 - (platformWidth / 2) - platformDistance, platformY, platformWidth, platformHeight, {
@@ -116,7 +116,6 @@ const Ballx = () => {
     const boxWidth = 100;
     const boxHeight = 50;
     const boxX = 750;
-    // Lowered the box position
     const boxY = 640;
 
     const boxLeftWall = Bodies.rectangle(boxX - boxWidth / 2, boxY, 20, boxHeight, {
@@ -148,6 +147,47 @@ const Ballx = () => {
 
     World.add(engine.world, [boxLeftWall, boxRightWall, boxBottomWall]);
 
+  // Spinning Platforms
+  const spinningPlatformLength = 280; // Increased length of the platforms
+  const spinningPlatformWidth = 10;   // Width of the platforms
+  const spinningPlatformY = 300;      // Y position of the platforms
+
+  const createSpinningPlatform = (x) => {
+    const platform = Bodies.rectangle(x, spinningPlatformY, spinningPlatformLength, spinningPlatformWidth, {
+      angle: 0,
+      render: {
+        fillStyle: '#228B22',
+        strokeStyle: '#000',
+        lineWidth: 1,
+      },
+    });
+
+    const anchor = Bodies.circle(x, spinningPlatformY, 5, {
+      isStatic: true,
+      render: {
+        visible: true,
+      },
+    });
+
+    const constraint = Constraint.create({
+      bodyA: anchor,
+      bodyB: platform,
+      pointA: { x: 0, y: 0 },
+      pointB: { x: 0, y: 0 },
+      stiffness: 1,
+      render: {
+        visible: false,
+      },
+    });
+
+    World.add(engine.world, [platform, anchor, constraint]);
+
+    return platform;
+  };
+
+  const spinningPlatform1 = createSpinningPlatform(600);
+  const spinningPlatform2 = createSpinningPlatform(900);
+
     const handleCollisions = (event) => {
       const pairs = event.pairs;
       for (let i = 0; i < pairs.length; i++) {
@@ -166,7 +206,7 @@ const Ballx = () => {
     const cleanup = () => {
       console.log('Cleaning up...');
       Render.stop(render);
-      World.clear(engine.world, false); // Keep the world but remove all bodies
+      World.clear(engine.world, false);
       Engine.clear(engine);
       Mouse.clear(mouse);
       World.remove(engine.world, mouseConstraintRef.current);
