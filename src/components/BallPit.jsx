@@ -85,10 +85,13 @@ const Ballx = () => {
     const platformWidth = 300;
     const platformHeight = 20;
     const platformDistance = 50;
-    const angle1 = Math.PI / 8;
-    const angle2 = Math.PI / -8;
+    const angle1 = Math.PI / 5;
+    const angle2 = Math.PI / -5;
 
-    const platform1 = Bodies.rectangle(750 - (platformWidth / 2) - platformDistance, 340, platformWidth, platformHeight, {
+    // Adjusted Y positions to lower the platforms
+    const platformY = 500;
+
+    const platform1 = Bodies.rectangle(750 - (platformWidth / 2) - platformDistance, platformY, platformWidth, platformHeight, {
       isStatic: true,
       angle: angle1,
       render: {
@@ -98,7 +101,7 @@ const Ballx = () => {
       },
     });
 
-    const platform2 = Bodies.rectangle(750 + (platformWidth / 2) + platformDistance, 340, platformWidth, platformHeight, {
+    const platform2 = Bodies.rectangle(750 + (platformWidth / 2) + platformDistance, platformY, platformWidth, platformHeight, {
       isStatic: true,
       angle: angle2,
       render: {
@@ -113,7 +116,8 @@ const Ballx = () => {
     const boxWidth = 100;
     const boxHeight = 50;
     const boxX = 750;
-    const boxY = 500;
+    // Lowered the box position
+    const boxY = 640;
 
     const boxLeftWall = Bodies.rectangle(boxX - boxWidth / 2, boxY, 20, boxHeight, {
       isStatic: true,
