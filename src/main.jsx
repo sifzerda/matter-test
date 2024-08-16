@@ -8,6 +8,9 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Bubbles from './pages/Bubbles';
 import Balls from './pages/Balls';
+import Catapult from './pages/Catapult';
+import Bike from './pages/Bike';
+import Mousetrap from './pages/Mousetrap';
 
 // Render the application without React.StrictMode
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,6 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="contact" element={<Contact />} />
         <Route path="bubbles" element={<Bubbles />} />
         <Route path="ball" element={<Balls />} />
+        <Route path="catapult" element={<Catapult />} />
+        <Route path="bike" element={<Bike />} />
+        <Route path="mousetrap" element={<Mousetrap />} />
       </Route>
     </Routes>
   </Router>
