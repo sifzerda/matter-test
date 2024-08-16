@@ -1,9 +1,11 @@
+// balls floating, boundary wrapping, 
+
 import { useState, useEffect, useRef } from 'react';
 import Matter, { Engine, Render, World, Bodies, Body, Mouse, MouseConstraint } from 'matter-js';
 import MatterWrap from 'matter-wrap';
 import decomp from 'poly-decomp';
 
-const BallPit = () => {
+const Bubx = () => {
   const [engine] = useState(Engine.create());
   const [balls, setBalls] = useState([]);
 
@@ -33,7 +35,7 @@ const BallPit = () => {
 
   // Helper function to create a random ball
   const createBall = () => {
-    const radius = Math.random() * 20 + 10; // Random radius between 10 and 30
+    const radius = Math.random() * 40 + 5; // Random radius between 10 and 30
     const ball = Bodies.circle(Math.random() * 1500, Math.random() * 680, radius, {
       restitution: 0.8, // Bounciness of the ball
       friction: 0.1,
@@ -100,10 +102,10 @@ const BallPit = () => {
 
   return (
     <div className="game-container" ref={gameRef}>
-        <h1>Ball Pit</h1>
-        <p>Click and drag to interact with the balls!</p>
+        <h1>Bubbles</h1>
+        <p>Click and drag to interact with the bubbles</p>
     </div>
   );
 };
 
-export default BallPit;
+export default Bubx;

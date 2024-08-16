@@ -11,3 +11,9 @@ Currently, two official plugins are available:
 
 
 - React Strict Mode causes Matter.js to reload, creating double screens. You have to remove it from main.jsx (<React.StrictMode/>)
+
+
+
+
++ Bubbles: 
++ Ball Pit
