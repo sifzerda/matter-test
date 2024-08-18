@@ -14,6 +14,7 @@ import Mousetrap from './pages/Mousetrap';
 
 import Avalanche from './pages/Avalanche';
 
+import BallPool from './pages/BallPool';
 import Bridge from './pages/Bridge';
 import Car from './pages/Car';
 import Chains from './pages/Chains';
@@ -70,6 +71,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
         <Route path="airfriction" element={<AirFriction />} />
 
+<Route path='ballpool' element={<BallPool />} />
 <Route path='bridge' element={<Bridge />} />
 <Route path='car' element={<Car />} />
 <Route path='catapult' element={<Catapult />} />

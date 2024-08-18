@@ -20,6 +20,7 @@ function App() {
                     <li><Link to="/airfriction">Air Friction</Link></li>
 
                     <li><Link to="/bridge">Bridge</Link></li>
+                    <li><Link to="/ballpool">Ball Pool</Link></li>
                     <li><Link to="/car">Car</Link></li>
                     <li><Link to="/chains">Chains</Link></li>
                     <li><Link to="/cloth">Cloth</Link></li>
@@ -55,7 +56,7 @@ function App() {
                     <li><Link to="/world">World</Link></li>
                     <li><Link to="/yard">Yard</Link></li>
                     <li><Link to="/mixed">Mixed</Link></li>
-                    
+
 
 
 
