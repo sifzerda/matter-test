@@ -1,113 +1,94 @@
-import { useState, useEffect, useRef } from 'react';
-import Matter, { Engine, Render, World, Bodies, Mouse, MouseConstraint } from 'matter-js';
-import MatterWrap from 'matter-wrap';
-import decomp from 'poly-decomp';
+import { useEffect, useRef } from 'react';
+import { Engine, Render, Runner, Composites, Constraint, MouseConstraint, Mouse, Composite, Bodies, Body, Vector } from 'matter-js';
 
-const Ballx = () => {
-  const [engine] = useState(Engine.create());
-  const [balls, setBalls] = useState([]);
-  const gameRef = useRef(null); // Ensure gameRef is initialized
-  const mouseConstraintRef = useRef(null); // Ref to hold the mouse constraint
+const Catapult = () => {
+    const canvasRef = useRef(null);
 
-  window.decomp = decomp; // poly-decomp is available globally
+    useEffect(() => {
 
-  useEffect(() => {
-    console.log('Component mounted or updated');
-    Matter.use(MatterWrap);
-    engine.world.gravity.y = -0.1; // Set gravity to a small value to simulate gradual dropping
+        // Create engine
+        const engine = Engine.create();
+        const world = engine.world;
 
-    const render = Render.create({
-      element: gameRef.current,
-      engine,
-      options: {
-        width: 1500,
-        height: 680,
-        wireframes: false
-      }
-    });
-    Render.run(render);
+        // Create renderer
+        const render = Render.create({
+            element: canvasRef.current,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 600,
+                showAngleIndicator: true,
+                showCollisions: true,
+                showVelocity: true,
+            },
+        });
 
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
+        Render.run(render);
 
-    // Helper function to create a ball
-    const createBall = () => {
-      const radius = Math.random() * 40 + 5; // Random radius between 5 and 45
-      const ball = Bodies.circle(Math.random() * 1500, -radius * 2, radius, { // Start above the screen
-        restitution: 0.8, // Bounciness of the ball
-        friction: 0.1,
-        frictionAir: 0.01,
-        render: {
-          fillStyle: 'transparent',
-          strokeStyle: '#ffffff',
-          lineWidth: 2
-        },
-        plugin: {
-          wrap: {
+        // Create runner
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Add bodies
+        const group = Body.nextGroup(true);
+
+        const stack = Composites.stack(250, 255, 1, 6, 0, 0, (x, y) => {
+            return Bodies.rectangle(x, y, 30, 30);
+        });
+
+        const catapult = Bodies.rectangle(400, 520, 320, 20, { collisionFilter: { group: group } });
+
+        Composite.add(world, [
+            stack,
+            catapult,
+            Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true, render: { fillStyle: '#060a19' } }),
+            Bodies.rectangle(250, 555, 20, 50, { isStatic: true, render: { fillStyle: '#060a19' } }),
+            Bodies.rectangle(400, 535, 20, 80, { isStatic: true, collisionFilter: { group: group }, render: { fillStyle: '#060a19' } }),
+            Bodies.circle(560, 100, 50, { density: 0.005 }),
+            Constraint.create({
+                bodyA: catapult,
+                pointB: Vector.clone(catapult.position),
+                stiffness: 1,
+                length: 0,
+            }),
+        ]);
+
+        // Add mouse control
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false,
+                },
+            },
+        });
+
+        Composite.add(world, mouseConstraint);
+
+        // Keep the mouse in sync with rendering
+        render.mouse = mouse;
+
+        // Fit the render viewport to the scene
+        Render.lookAt(render, {
             min: { x: 0, y: 0 },
-            max: { x: 1500, y: 680 }
-          }
-        }
-      });
+            max: { x: 800, y: 600 },
+        });
 
-      World.add(engine.world, ball);
+        // Cleanup function
+        return () => {
+            Render.stop(render);
+            Runner.stop(runner);
+            Composite.remove(world, mouseConstraint);
+        };
+    }, []);
 
-      return ball;
-    };
-
-    // Function to add balls gradually
-    const addBallsGradually = () => {
-      const numberOfBalls = 1; // Number of balls to add each interval
-      const newBalls = [];
-      for (let i = 0; i < numberOfBalls; i++) {
-        newBalls.push(createBall());
-      }
-      setBalls(prevBalls => [...prevBalls, ...newBalls]);
-    };
-
-    // Add balls every 200 milliseconds
-    const intervalId = setInterval(addBallsGradually, 200);
-
-    // Setup mouse constraint for dragging
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        render: {
-          visible: false
-        }
-      }
-    });
-    mouseConstraintRef.current = mouseConstraint;
-    World.add(engine.world, mouseConstraint);
-
-    const cleanup = () => {
-      console.log('Cleaning up...');
-      Render.stop(render);
-      World.clear(engine.world);
-      Engine.clear(engine);
-      World.remove(engine.world, mouseConstraintRef.current);
-      mouseConstraintRef.current = null;
-      clearInterval(intervalId); // Clear the interval when cleaning up
-    };
-
-    // Attach cleanup function to the window's beforeunload event
-    window.addEventListener('beforeunload', cleanup);
-
-    return () => {
-      console.log('Component will unmount');
-      window.removeEventListener('beforeunload', cleanup);
-      cleanup();
-    };
-  }, [engine]);
-
-  return (
-    <div className="game-container" ref={gameRef}>
-      <h1>Bubbles</h1>
-      <p>Click and drag to interact with the bubbles</p>
-    </div>
-  );
+    return (
+        <div>
+            <div ref={canvasRef} />
+        </div>
+    );
 };
 
-export default Ballx;
+export default Catapult;
