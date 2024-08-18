@@ -19,7 +19,7 @@ Front end app with several examples of Matter-js
 + Ball Pit: 
 + Caterpult:
 + Mousetrap
-+ 
++ Avalanche: Matter.js example
 + ?
 + ?
 + ?
