@@ -17,7 +17,6 @@ const Ballx = () => {
       console.error('Could not load MatterWrap plugin:', e);
     }
 
-    const { Engine, Render, Runner, Composite, Composites, Common, Mouse, MouseConstraint, Bodies } = Matter;
     const world = engine.world;
 
     // Create renderer
@@ -96,9 +95,7 @@ const Ballx = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
-      <h1>Avalanche</h1>
-    </div>
+    <div className="game-container" ref={gameRef}></div>
   );
 };
 
