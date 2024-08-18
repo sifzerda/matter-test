@@ -15,12 +15,17 @@ Currently, two official plugins are available:
 
 Front end app with several examples of Matter-js 
 
+Examples I made:
+
 + Bubbles: 
 + Ball Pit: 
 + Caterpult:
 + Mousetrap
-+ Avalanche: Matter.js example
-+ ?
+
+Matter.js Demos:
+
++ Avalanche
++ 
 + ?
 + ?
 + ?
