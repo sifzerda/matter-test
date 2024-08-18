@@ -1,21 +1,26 @@
-import { useState, useEffect, useRef } from 'react';
-import Matter, { Engine, Render, World, Bodies, Mouse, MouseConstraint } from 'matter-js';
+import { useEffect, useRef } from 'react';
+import Matter, { Engine, Render, Runner, Composite, Composites, Common, Mouse, MouseConstraint, Bodies } from 'matter-js';
 import MatterWrap from 'matter-wrap';
-import decomp from 'poly-decomp';
 
 const Ballx = () => {
-  const [engine] = useState(Engine.create());
-  const [balls, setBalls] = useState([]);
-  const gameRef = useRef(null); // Ensure gameRef is initialized
-  const mouseConstraintRef = useRef(null); // Ref to hold the mouse constraint
-
-  window.decomp = decomp; // poly-decomp is available globally
+  const engine = useRef(Engine.create()).current;
+  const gameRef = useRef(null);
+  const mouseConstraintRef = useRef(null);
+  const renderRef = useRef(null);
+  const runnerRef = useRef(null);
 
   useEffect(() => {
-    console.log('Component mounted or updated');
-    Matter.use(MatterWrap);
-    engine.world.gravity.y = -0.1; // Set gravity to a small value to simulate gradual dropping
+    // Initialize the MatterWrap plugin
+    try {
+      Matter.use(MatterWrap);
+    } catch (e) {
+      console.error('Could not load MatterWrap plugin:', e);
+    }
 
+    const { Engine, Render, Runner, Composite, Composites, Common, Mouse, MouseConstraint, Bodies } = Matter;
+    const world = engine.world;
+
+    // Create renderer
     const render = Render.create({
       element: gameRef.current,
       engine,
@@ -25,53 +30,30 @@ const Ballx = () => {
         wireframes: false
       }
     });
+    renderRef.current = render;
     Render.run(render);
 
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
+    // Create runner
+    const runner = Runner.create();
+    runnerRef.current = runner;
+    Runner.run(runner, engine);
 
-    // Helper function to create a ball
-    const createBall = () => {
-      const radius = Math.random() * 40 + 5; // Random radius between 5 and 45
-      const ball = Bodies.circle(Math.random() * 1500, -radius * 2, radius, { // Start above the screen
-        restitution: 0.8, // Bounciness of the ball
-        friction: 0.1,
-        frictionAir: 0.01,
-        render: {
-          fillStyle: 'transparent',
-          strokeStyle: '#ffffff',
-          lineWidth: 2
-        },
-        plugin: {
-          wrap: {
-            min: { x: 0, y: 0 },
-            max: { x: 1500, y: 680 }
-          }
-        }
-      });
+    // Add bodies
+    const stack = Composites.stack(20, 20, 20, 5, 0, 0, (x, y) => {
+      return Bodies.circle(x, y, Common.random(10, 20), { friction: 0.00001, restitution: 0.5, density: 0.001 });
+    });
+    Composite.add(world, stack);
 
-      World.add(engine.world, ball);
+    Composite.add(world, [
+      Bodies.rectangle(200, 150, 700, 20, { isStatic: true, angle: Math.PI * 0.06, render: { fillStyle: '#060a19' } }),
+      Bodies.rectangle(500, 350, 700, 20, { isStatic: true, angle: -Math.PI * 0.06, render: { fillStyle: '#060a19' } }),
+      Bodies.rectangle(340, 580, 700, 20, { isStatic: true, angle: Math.PI * 0.04, render: { fillStyle: '#060a19' } })
+    ]);
 
-      return ball;
-    };
-
-    // Function to add balls gradually
-    const addBallsGradually = () => {
-      const numberOfBalls = 1; // Number of balls to add each interval
-      const newBalls = [];
-      for (let i = 0; i < numberOfBalls; i++) {
-        newBalls.push(createBall());
-      }
-      setBalls(prevBalls => [...prevBalls, ...newBalls]);
-    };
-
-    // Add balls every 200 milliseconds
-    const intervalId = setInterval(addBallsGradually, 200);
-
-    // Setup mouse constraint for dragging
+    // Add mouse control
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
+      mouse,
       constraint: {
         stiffness: 0.2,
         render: {
@@ -80,32 +62,42 @@ const Ballx = () => {
       }
     });
     mouseConstraintRef.current = mouseConstraint;
-    World.add(engine.world, mouseConstraint);
+    Composite.add(world, mouseConstraint);
 
+    // Fit the render viewport to the scene
+    Render.lookAt(render, Composite.allBodies(world));
+
+    // Apply wrapping using matter-wrap plugin
+    stack.bodies.forEach(body => {
+      body.plugin.wrap = {
+        min: { x: render.bounds.min.x, y: render.bounds.min.y },
+        max: { x: render.bounds.max.x, y: render.bounds.max.y }
+      };
+    });
+
+    // Cleanup function
     const cleanup = () => {
       console.log('Cleaning up...');
       Render.stop(render);
-      World.clear(engine.world);
+      Runner.stop(runner);
+      Composite.clear(world, false);
       Engine.clear(engine);
-      World.remove(engine.world, mouseConstraintRef.current);
-      mouseConstraintRef.current = null;
-      clearInterval(intervalId); // Clear the interval when cleaning up
+      if (mouseConstraintRef.current) {
+        Composite.remove(world, mouseConstraintRef.current);
+        mouseConstraintRef.current = null;
+      }
     };
 
-    // Attach cleanup function to the window's beforeunload event
-    window.addEventListener('beforeunload', cleanup);
-
+    // Cleanup on component unmount
     return () => {
       console.log('Component will unmount');
-      window.removeEventListener('beforeunload', cleanup);
       cleanup();
     };
   }, [engine]);
 
   return (
     <div className="game-container" ref={gameRef}>
-      <h1>Bubbles</h1>
-      <p>Click and drag to interact with the bubbles</p>
+      <h1>Avalanche</h1>
     </div>
   );
 };
