@@ -4,8 +4,8 @@ import AirFriction from '../components/AirFriction';
 function About() {
     return (
         <div>
-            <h1>Avalanche!</h1>
-            <p>Click and drag the balls</p>
+            <h1>Air Friction</h1>
+            <p>Drag the squares to demonstrate air friction</p>
             <AirFriction />
         </div>
     );
