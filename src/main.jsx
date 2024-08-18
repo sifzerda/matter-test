@@ -13,6 +13,8 @@ import Bike from './pages/Bike';
 import Mousetrap from './pages/Mousetrap';
 import Avalanche from './pages/Avalanche';
 
+import AirFriction from './pages/AirFriction';
+
 // Render the application without React.StrictMode
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
@@ -27,6 +29,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="bike" element={<Bike />} />
         <Route path="mousetrap" element={<Mousetrap />} />
         <Route path="avalanche" element={<Avalanche />} />
+
+        <Route path="airfriction" element={<AirFriction />} />
+
       </Route>
     </Routes>
   </Router>
