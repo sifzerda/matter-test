@@ -11,6 +11,7 @@ import Balls from './pages/Balls';
 import Catapult from './pages/Catapult';
 import Bike from './pages/Bike';
 import Mousetrap from './pages/Mousetrap';
+import Avalanche from './pages/Avalanche';
 
 // Render the application without React.StrictMode
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="catapult" element={<Catapult />} />
         <Route path="bike" element={<Bike />} />
         <Route path="mousetrap" element={<Mousetrap />} />
+        <Route path="avalanche" element={<Avalanche />} />
       </Route>
     </Routes>
   </Router>

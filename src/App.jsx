@@ -15,6 +15,7 @@ function App() {
                     <li><Link to="/catapult">Catapult</Link></li>
                     <li><Link to="/bike">Bike</Link></li>
                     <li><Link to="/mousetrap">Mousetrap</Link></li>
+                    <li><Link to="/avalanche">Avalanche</Link></li>
 
 
               </ul>

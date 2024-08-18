@@ -62,7 +62,7 @@ const Ballx = () => {
       setBalls(prevBalls => [...prevBalls, ...newBalls]);
     };
 
-    const intervalId = setInterval(addBallsGradually, 100);
+    const intervalId = setInterval(addBallsGradually, 200);
 
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
@@ -77,55 +77,16 @@ const Ballx = () => {
     mouseConstraintRef.current = mouseConstraint;
     World.add(engine.world, mouseConstraint);
 
-    // Function to create lines
-    const createLines = (x, y) => {
-      const numLines = 10; // Number of lines to create
-      const lines = [];
-
-      for (let i = 0; i < numLines; i++) {
-        const angle = Math.random() * 2 * Math.PI; // Angle in radians
-        const length = Math.random() * 30 + 10; // Length of lines
-        const line = Bodies.rectangle(x, y, 2, length, {
-          angle: angle,
-          isStatic: true,
-          render: {
-            fillStyle: '#ffffff',
-            strokeStyle: '#ffffff',
-            lineWidth: 0.5
-          }
-        });
-
-        // Update the position of the line based on its angle and length
-        Matter.Body.setPosition(line, { x: x, y: y });
-        Matter.Body.setAngle(line, angle);
-
-        lines.push(line);
-        World.add(engine.world, line);
-      }
-
-      // Remove lines after a short delay
-      setTimeout(() => {
-        World.remove(engine.world, lines);
-      }, 100); // Adjust duration as needed
-    };
-
     // Collision detection function
     const handleCollisionStart = (event) => {
       const pairs = event.pairs;
 
+      // Check for collisions between balls
       pairs.forEach(pair => {
         if (pair.bodyA.label === 'Circle Body' && pair.bodyB.label === 'Circle Body') {
+          // Get the bodies involved in the collision
           const bodyA = pair.bodyA;
           const bodyB = pair.bodyB;
-
-          // Get the collision position
-          const collisionPoint = {
-            x: (bodyA.position.x + bodyB.position.x) / 2,
-            y: (bodyA.position.y + bodyB.position.y) / 2
-          };
-
-          // Create lines at the collision point
-          createLines(collisionPoint.x, collisionPoint.y);
 
           // Remove bodies from the world
           World.remove(engine.world, [bodyA, bodyB]);
