@@ -19,7 +19,7 @@ Examples I made:
 
 + Bubbles: 
 + Ball Pit: 
-+ Caterpult:
++ Catapult:
 + Mousetrap
 
 Matter.js Demos:
