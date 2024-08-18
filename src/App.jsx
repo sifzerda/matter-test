@@ -23,6 +23,7 @@ function App() {
                     <li><Link to="/ballpool">Ball Pool</Link></li>
                     <li><Link to="/car">Car</Link></li>
                     <li><Link to="/chains">Chains</Link></li>
+                    <li><Link to="/circlestack">CircleStack</Link></li>
                     <li><Link to="/cloth">Cloth</Link></li>
                     <li><Link to="/collisionfiltering">Collision Filtering</Link></li>
                     <li><Link to="/compound">Compound</Link></li>

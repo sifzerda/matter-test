@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import Chains from '../components/Chains';
+import CircleStack from '../components/CircleStack';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <Chains />
+            <CircleStack />
         </div>
     );
 }

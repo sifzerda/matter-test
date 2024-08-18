@@ -18,6 +18,7 @@ import BallPool from './pages/BallPool';
 import Bridge from './pages/Bridge';
 import Car from './pages/Car';
 import Chains from './pages/Chains';
+import CircleStack from './pages/CircleStack';
 import Cloth from './pages/Cloth';
 import CollisionFiltering from './pages/CollisionFiltering';
 import Compound from './pages/Compound';
@@ -62,19 +63,21 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+
+        <Route path="avalanche" element={<Avalanche />} />
+        <Route path="airfriction" element={<AirFriction />} />
+
         <Route path="bubbles" element={<Bubbles />} />
         <Route path="ball" element={<Balls />} />
         <Route path="catapult" element={<Catapult />} />
         <Route path="bike" element={<Bike />} />
         <Route path="mousetrap" element={<Mousetrap />} />
-        <Route path="avalanche" element={<Avalanche />} />
-
-        <Route path="airfriction" element={<AirFriction />} />
 
 <Route path='ballpool' element={<BallPool />} />
 <Route path='bridge' element={<Bridge />} />
 <Route path='car' element={<Car />} />
 <Route path='catapult' element={<Catapult />} />
+<Route path='circlestack' element={<CircleStack />} />
 <Route path='cloth' element={<Cloth />} />
 <Route path='chains' element={<Chains />} />
 <Route path='collisionfiltering' element={<CollisionFiltering />} />
