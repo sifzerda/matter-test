@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import Bubbles from '../components/Bubbles';
+import CompoundStack from '../components/CompoundStack';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <Bubbles />
+            <CompoundStack />
         </div>
     );
 }

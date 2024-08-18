@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import Bubbles from '../components/Bubbles';
+import Mixed from '../components/Mixed';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <Bubbles />
+            <Mixed />
         </div>
     );
 }

@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import Bubbles from '../components/Bubbles';
+import Remove from '../components/Remove';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <Bubbles />
+            <Remove />
         </div>
     );
 }

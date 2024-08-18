@@ -23,10 +23,11 @@ import Cloth from './pages/Cloth';
 import CollisionFiltering from './pages/CollisionFiltering';
 import CompositeManipulation from './pages/CompositeManipulation';
 import CompoundBodies from './pages/CompoundBodies';
+import CompoundStack from './pages/CompoundStack';
 import Concave from './pages/Concave';
 import Constraints from './pages/Constraints';
+import DoublePendulum from './pages/DoublePendulum';
 import Convex from './pages/Convex';
-import Demo from './pages/Demo';
 import Density from './pages/Density';
 import Events from './pages/Events';
 import Friction from './pages/Friction';
@@ -35,23 +36,32 @@ import Gyro from './pages/Gyro';
 import Manipulation from './pages/Manipulation';
 import Mixed from './pages/Mixed';
 import Motor from './pages/Motor';
+import NewtonsCradle from './pages/NewtonsCradle';
 import Pyramid from './pages/Pyramid';
+import Ragdoll from './pages/Ragdoll';
 import Raycasting from './pages/Raycasting';
+import Remove from './pages/Remove';
 import Restitution from './pages/Restitution';
 import Rounded from './pages/Rounded';
+import Sensors from './pages/Sensors';
 import Sleeping from './pages/Sleeping';
 import Slingshot from './pages/Slingshot';
 import Softbody from './pages/Softbody';
 import Sprites from './pages/Sprites';
 import Stack from './pages/Stack';
+import StaticFriction from './pages/StaticFriction';
+import StatsPerformance from './pages/StatsPerformance';
 import Stress from './pages/Stress';
+import Stress2 from './pages/Stress2';
+import Stress3 from './pages/Stress3';
+import Stress4 from './pages/Stress4';
+import Substep from './pages/Substep';
 import Svg from './pages/Svg';
 import Terrain from './pages/Terrain';
 import Timescale from './pages/Timescale';
 import Views from './pages/Views';
 import WreckingBall from './pages/WreckingBall';
-import World from './pages/World';
-import Yard from './pages/Yard';
+
 
 
 import AirFriction from './pages/AirFriction';
@@ -84,10 +94,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='collisionfiltering' element={<CollisionFiltering />} />
 <Route path='compositemanipulation' element={<CompositeManipulation />} />
 <Route path='compoundbodies' element={<CompoundBodies />} />
+<Route path='compoundstack' element={<CompoundStack />} />
 <Route path='concave' element={<Concave />} />
 <Route path='constraints' element={<Constraints />} />
 <Route path='convex' element={<Convex />} />
-<Route path='demo' element={<Demo />} />
+<Route path='doublependulum' element={<DoublePendulum />} />
 <Route path='density' element={<Density />} />
 <Route path='events' element={<Events />} />
 <Route path='friction' element={<Friction />} />
@@ -96,34 +107,33 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='manipulation' element={<Manipulation />} />
 <Route path='mixed' element={<Mixed />} />
 <Route path='motor' element={<Motor />} />
+<Route path='newtonsCradle' element={<NewtonsCradle />} />
 <Route path='pyramid' element={<Pyramid />} />
+<Route path='ragdoll' element={<Ragdoll />} />
 <Route path='raycasting' element={<Raycasting />} />
 <Route path='restitution' element={<Restitution />} />
+<Route path='remove' element={<Remove />} />
 <Route path='rounded' element={<Rounded />} />
+<Route path='sensors' element={<Sensors />} />
 <Route path='sleeping' element={<Sleeping />} />
 <Route path='slingshot' element={<Slingshot />} />
 <Route path='softbody' element={<Softbody />} />
 <Route path='sprites' element={<Sprites />} />
 <Route path='stack' element={<Stack />} />
+<Route path='staticfriction' element={<StaticFriction />} />
+<Route path='statsperformance' element={<StatsPerformance />} />
 <Route path='stress' element={<Stress />} />
+<Route path='stress2' element={<Stress2 />} />
+<Route path='stress3' element={<Stress3 />} />
+<Route path='stress4' element={<Stress4 />} />
+<Route path='substep' element={<Substep />} />
 <Route path='svg' element={<Svg />} />
 <Route path='terrain' element={<Terrain />} />
 <Route path='timescale' element={<Timescale />} />
 <Route path='views' element={<Views />} />
 <Route path='wreckingball' element={<WreckingBall />} />
- 
-<Route path='world' element={<World />} />
-<Route path='yard' element={<Yard />} />
+
 <Route path='mixed' element={<Mixed />} />
-
-
-
-
-
-
-
-
-
 
 
       </Route>

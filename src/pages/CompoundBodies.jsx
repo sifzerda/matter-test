@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import Compound from '../components/CompoundBodies';
+import CompoundBodies from '../components/CompoundBodies';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <Compound />
+            <CompoundBodies />
         </div>
     );
 }

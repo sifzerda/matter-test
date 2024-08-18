@@ -22,7 +22,7 @@ const Ballx = () => {
       options: {
         width: 1500,
         height: 680,
-        wireframes: false
+        wireframes: true
       }
     });
     Render.run(render);
