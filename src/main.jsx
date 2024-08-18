@@ -21,7 +21,8 @@ import Chains from './pages/Chains';
 import CircleStack from './pages/CircleStack';
 import Cloth from './pages/Cloth';
 import CollisionFiltering from './pages/CollisionFiltering';
-import Compound from './pages/Compound';
+import CompositeManipulation from './pages/CompositeManipulation';
+import CompoundBodies from './pages/CompoundBodies';
 import Concave from './pages/Concave';
 import Constraints from './pages/Constraints';
 import Convex from './pages/Convex';
@@ -81,7 +82,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='cloth' element={<Cloth />} />
 <Route path='chains' element={<Chains />} />
 <Route path='collisionfiltering' element={<CollisionFiltering />} />
-<Route path='compound' element={<Compound />} />
+<Route path='compositemanipulation' element={<CompositeManipulation />} />
+<Route path='compoundbodies' element={<CompoundBodies />} />
 <Route path='concave' element={<Concave />} />
 <Route path='constraints' element={<Constraints />} />
 <Route path='convex' element={<Convex />} />

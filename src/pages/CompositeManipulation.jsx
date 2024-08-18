@@ -1,11 +1,11 @@
 // src/pages/About.jsx
-import CollisionFiltering from '../components/CollisionFiltering';
+import CompositeManipulation from '../components/CompositeManipulation';
 
 function About() {
     return (
         <div>
             <h1>About Page</h1>
-            <CollisionFiltering />
+            <CompositeManipulation />
         </div>
     );
 }

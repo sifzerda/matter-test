@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Engine, Render, Runner, Composites, MouseConstraint, Mouse, Composite, Bodies } from 'matter-js';
+import { Engine, Render, Runner, Body, Constraint, Composite, MouseConstraint, Mouse, Bodies } from 'matter-js';
 
-const CircleStack = () => {
+const CompoundBodies = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
+
         // Create engine
         const engine = Engine.create();
         const world = engine.world;
@@ -16,7 +17,8 @@ const CircleStack = () => {
             options: {
                 width: 800,
                 height: 600,
-                showAngleIndicator: true,
+                showAxes: true,
+                showConvexHulls: true
             }
         });
 
@@ -27,17 +29,41 @@ const CircleStack = () => {
         Runner.run(runner, engine);
 
         // Add bodies
-        const stack = Composites.stack(100, 600 - 21 - 20 * 20, 10, 10, 20, 0, (x, y) => {
-            return Bodies.circle(x, y, 20);
+        let size = 200;
+        let x = 200;
+        let y = 200;
+
+        const partA = Bodies.rectangle(x, y, size, size / 5);
+        const partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
+
+        const compoundBodyA = Body.create({
+            parts: [partA, partB]
+        });
+
+        size = 150;
+        x = 400;
+        y = 300;
+
+        const partC = Bodies.circle(x, y, 30);
+        const partD = Bodies.circle(x + size, y, 30);
+        const partE = Bodies.circle(x + size, y + size, 30);
+        const partF = Bodies.circle(x, y + size, 30);
+
+        const compoundBodyB = Body.create({
+            parts: [partC, partD, partE, partF]
+        });
+
+        const constraint = Constraint.create({
+            pointA: { x: 400, y: 100 },
+            bodyB: compoundBodyB,
+            pointB: { x: 0, y: 0 }
         });
 
         Composite.add(world, [
-            // Walls
-            Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
-            Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
-            Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
-            Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
-            stack
+            compoundBodyA,
+            compoundBodyB,
+            constraint,
+            Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true })
         ]);
 
         // Add mouse control
@@ -67,7 +93,6 @@ const CircleStack = () => {
         return () => {
             Render.stop(render);
             Runner.stop(runner);
-            Composite.remove(world, mouseConstraint);
         };
     }, []);
 
@@ -78,4 +103,4 @@ const CircleStack = () => {
     );
 };
 
-export default CircleStack;
+export default CompoundBodies;

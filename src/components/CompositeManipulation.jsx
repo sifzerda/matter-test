@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Engine, Render, Runner, Composites, MouseConstraint, Mouse, Composite, Bodies } from 'matter-js';
+import { Engine, Render, Runner, Events, Composite, Composites, MouseConstraint, Mouse, Bodies } from 'matter-js';
 
-const CircleStack = () => {
+const CompositeManipulation = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
+
         // Create engine
         const engine = Engine.create();
         const world = engine.world;
@@ -16,7 +17,7 @@ const CircleStack = () => {
             options: {
                 width: 800,
                 height: 600,
-                showAngleIndicator: true,
+                showAngleIndicator: true
             }
         });
 
@@ -26,19 +27,45 @@ const CircleStack = () => {
         const runner = Runner.create();
         Runner.run(runner, engine);
 
-        // Add bodies
-        const stack = Composites.stack(100, 600 - 21 - 20 * 20, 10, 10, 20, 0, (x, y) => {
-            return Bodies.circle(x, y, 20);
-        });
-
+        // Add walls
         Composite.add(world, [
-            // Walls
             Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
             Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
             Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
-            Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
-            stack
+            Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
         ]);
+
+        // Create stack of bodies
+        const stack = Composites.stack(200, 200, 4, 4, 0, 0, (x, y) => {
+            return Bodies.rectangle(x, y, 40, 40);
+        });
+
+        Composite.add(world, stack);
+
+        engine.gravity.y = 0;
+
+        // Handle composite manipulation
+        Events.on(engine, 'afterUpdate', event => {
+            const time = engine.timing.timestamp;
+            const timeScale = (event.delta || (1000 / 60)) / 1000;
+
+            Composite.translate(stack, {
+                x: Math.sin(time * 0.001) * 10 * timeScale,
+                y: 0
+            });
+
+            Composite.rotate(stack, Math.sin(time * 0.001) * 0.75 * timeScale, {
+                x: 300,
+                y: 300
+            });
+
+            const scale = 1 + (Math.sin(time * 0.001) * 0.75 * timeScale);
+
+            Composite.scale(stack, scale, scale, {
+                x: 300,
+                y: 300
+            });
+        });
 
         // Add mouse control
         const mouse = Mouse.create(render.canvas);
@@ -67,7 +94,6 @@ const CircleStack = () => {
         return () => {
             Render.stop(render);
             Runner.stop(runner);
-            Composite.remove(world, mouseConstraint);
         };
     }, []);
 
@@ -78,4 +104,4 @@ const CircleStack = () => {
     );
 };
 
-export default CircleStack;
+export default CompositeManipulation;

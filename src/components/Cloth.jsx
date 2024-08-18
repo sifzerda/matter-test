@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import Matter from 'matter-js';
+import { useEffect, useRef } from 'react';
+import { Engine, Render, Runner, MouseConstraint, Mouse, Composite, Bodies, Body, Common, Composites } from 'matter-js';
 
 // Define the cloth function as a standalone utility function
 const createCloth = (xx, yy, columns, rows, columnGap, rowGap, crossBrace, particleRadius, particleOptions, constraintOptions) => {
-    const { Body, Bodies, Common, Composites } = Matter;
 
     const group = Body.nextGroup(true);
     particleOptions = Common.extend({ inertia: Infinity, friction: 0.00001, collisionFilter: { group: group }, render: { visible: false }}, particleOptions);
@@ -24,7 +23,6 @@ const Cloth = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        const { Engine, Render, Runner, Body, Composites, MouseConstraint, Mouse, Composite, Bodies } = Matter;
 
         // Create engine
         const engine = Engine.create();

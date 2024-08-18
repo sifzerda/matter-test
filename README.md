@@ -31,4 +31,6 @@ Matter.js Demos:
 + Chains [x]
 + Circle Stack [x]
 + Cloth [x]
-+ ?
++ Collision Filtering [x]
++ Composite Manipulation [x]
++ 

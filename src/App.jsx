@@ -26,7 +26,8 @@ function App() {
                     <li><Link to="/circlestack">CircleStack</Link></li>
                     <li><Link to="/cloth">Cloth</Link></li>
                     <li><Link to="/collisionfiltering">Collision Filtering</Link></li>
-                    <li><Link to="/compound">Compound</Link></li>
+                    <li><Link to ="/compositemanipulation">Composite Manipulation</Link></li>
+                    <li><Link to="/compoundbodies">Compound Bodies</Link></li>
                     <li><Link to="/concave">Concave</Link></li>
                     <li><Link to="/constraints">Constraints</Link></li>
                     <li><Link to="/convex">Convex</Link></li>
