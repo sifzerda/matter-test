@@ -37,19 +37,50 @@ const Ballx = () => {
     runnerRef.current = runner;
     Runner.run(runner, engine);
 
-    // Add bodies
+// ------------------------------ Add balls -------------------------------//
     const stack = Composites.stack(20, 20, 20, 5, 0, 0, (x, y) => {
-      return Bodies.circle(x, y, Common.random(10, 20), { friction: 0.00001, restitution: 0.5, density: 0.001 });
+      return Bodies.circle(x, y, Common.random(10, 20), 
+      { 
+        friction: 0.00001, 
+        restitution: 0.5, 
+        density: 0.001 
+    });
     });
     Composite.add(world, stack);
 
+// ------------------------------ Add platforms -------------------------------//
     Composite.add(world, [
-      Bodies.rectangle(200, 150, 700, 20, { isStatic: true, angle: Math.PI * 0.06, render: { fillStyle: '#060a19' } }),
-      Bodies.rectangle(500, 350, 700, 20, { isStatic: true, angle: -Math.PI * 0.06, render: { fillStyle: '#060a19' } }),
-      Bodies.rectangle(340, 580, 700, 20, { isStatic: true, angle: Math.PI * 0.04, render: { fillStyle: '#060a19' } })
+      Bodies.rectangle(200, 150, 700, 20, 
+        { 
+            isStatic: true, 
+            angle: Math.PI * 0.06, 
+            render: 
+            { 
+                fillStyle: '#655c52' 
+            }
+             }
+            ),
+      Bodies.rectangle(500, 350, 700, 20, 
+        { 
+            isStatic: true, 
+            angle: -Math.PI * 0.06, 
+            render: 
+            { 
+                fillStyle: '#655c52' 
+            } 
+        }),
+      Bodies.rectangle(340, 580, 700, 20, 
+        { 
+            isStatic: true, 
+            angle: Math.PI * 0.04, 
+            render: 
+            { 
+                fillStyle: '#655c525' 
+            }
+             })
     ]);
 
-    // Add mouse control
+// ------------------------------Add mouse control -------------------------------//
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse,
@@ -62,6 +93,9 @@ const Ballx = () => {
     });
     mouseConstraintRef.current = mouseConstraint;
     Composite.add(world, mouseConstraint);
+
+    // Keep the mouse in sync with rendering
+    render.mouse = mouse;
 
     // Fit the render viewport to the scene
     Render.lookAt(render, Composite.allBodies(world));
