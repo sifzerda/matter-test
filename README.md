@@ -72,3 +72,47 @@ Matter.js Demos:
 + Timescale [x]
 + Views [x] 
 + Wrecking Ball [x]
+
+
+Issues, Bugs and Further Development:
+
+1. Need pathseg polyfill:
+
+The SVG and Terrain examples get this error:
+```bash
+TypeError: Cannot read properties of undefined (reading 'body')
+    at Body.setVertices (matter.js:1941:25)
+    at Body.set (matter.js:1804:22)
+    at _initProperties (matter.js:1730:14)
+    at Body.create (matter.js:1688:9)
+    at Bodies.fromVertices (matter.js:5506:29)
+    at           Body.setVertices = function(body, vertices) {
+        // change vertices
+        if (vertices[0].body === body) {
+            body.vertices = vertices;
+        } else {
+            body.vertices = Vertices.create(vertices, body);
+        }
+```
+
+You have to use the [SVGPathSeg polyfill](https://github.com/progers/pathseg). Download pathseg.js and put into server folder (backend client/server) or client folder same level as index.html (front-end). Paste this into your index.html:
+
+```bash
+    <script src="pathseg.js"></script>
+```
+
+2. Need poly-decomp:
+
+Need to install poly-decomp or you get this error:
+
+```bash
+matter-js: Bodies.fromVertices: Install the 'poly-decomp' library and use Common.setDecomp or provide 'decomp' as a global to decompose concave vertices.
+```
+
+Add this to the SVG component: 
+
+```bash
+import decomp from 'poly-decomp';
+
+window.decomp = decomp;
+```

@@ -40,7 +40,6 @@ import NewtonsCradle from './pages/NewtonsCradle';
 import Pyramid from './pages/Pyramid';
 import Ragdoll from './pages/Ragdoll';
 import Raycasting from './pages/Raycasting';
-import Remove from './pages/Remove';
 import Restitution from './pages/Restitution';
 import Rounded from './pages/Rounded';
 import Sensors from './pages/Sensors';
@@ -112,7 +111,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='ragdoll' element={<Ragdoll />} />
 <Route path='raycasting' element={<Raycasting />} />
 <Route path='restitution' element={<Restitution />} />
-<Route path='remove' element={<Remove />} />
 <Route path='rounded' element={<Rounded />} />
 <Route path='sensors' element={<Sensors />} />
 <Route path='sleeping' element={<Sleeping />} />

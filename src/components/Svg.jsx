@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { Engine, Render, Runner, Common, Svg, Vertices, Composite, Bodies, MouseConstraint, Mouse } from 'matter-js';
+import { Engine, Render, Runner, Common, Vertices, Svg, Composite, Bodies, MouseConstraint, Mouse } from 'matter-js';
+import decomp from 'poly-decomp';
 
-import 'poly-decomp'; // Ensure you have this library available
+window.decomp = decomp; // poly-decomp is available globally
 
 const SvgDemo = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
-
         // Initialize the Matter.js engine
         const engine = Engine.create();
         const world = engine.world;
@@ -37,20 +37,25 @@ const SvgDemo = () => {
                 .then(response => response.text())
                 .then(raw => (new window.DOMParser()).parseFromString(raw, 'image/svg+xml'));
 
-        // Load and add SVG bodies
-        if (typeof fetch !== 'undefined') {
-            const svgPaths = [
-                '../../public/iconmonstr-check-mark-8-icon.svg', 
-                '../../public/iconmonstr-paperclip-2-icon.svg',
-                '../../public/iconmonstr-puzzle-icon.svg',
-                '../../public/iconmonstr-user-icon.svg'
-            ];
+        // List of SVG paths to load
+        const svgPaths = [
+         //   '../../public/svg.svg',
+         //  '../../public/toilet-paper-com.svg'
 
-            svgPaths.forEach((path, i) => {
-                loadSvg(path).then(root => {
+         //'../../public/iconmonstr-puzzle-icon.svg'
+
+         '../../public/SVGlogo.svg'
+        ];
+
+        svgPaths.forEach((path, i) => {
+            loadSvg(path).then(root => {
+                try {
                     const color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
                     const vertexSets = select(root, 'path')
-                        .map(path => Vertices.scale(Svg.pathToVertices(path, 30), 0.4, 0.4));
+                        .map(pathElement => {
+                            const vertices = Svg.pathToVertices(pathElement, 30);
+                            return Vertices.scale(vertices, 0.4, 0.4);
+                        });
 
                     Composite.add(world, Bodies.fromVertices(100 + i * 150, 200 + i * 50, vertexSets, {
                         render: {
@@ -59,25 +64,11 @@ const SvgDemo = () => {
                             lineWidth: 1
                         }
                     }, true));
-                });
-            });
-
-            loadSvg('../../public/svg.svg').then(root => {
-                const color = Common.choose(['#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
-                const vertexSets = select(root, 'path')
-                    .map(path => Svg.pathToVertices(path, 30));
-
-                Composite.add(world, Bodies.fromVertices(400, 80, vertexSets, {
-                    render: {
-                        fillStyle: color,
-                        strokeStyle: color,
-                        lineWidth: 1
-                    }
-                }, true));
-            });
-        } else {
-            Common.warn('Fetch is not available. Could not load SVG.');
-        }
+                } catch (error) {
+                    console.error("Error processing SVG:", error);
+                }
+            }).catch(error => console.error("Error loading SVG:", error));
+        });
 
         // Add static bodies (walls)
         Composite.add(world, [

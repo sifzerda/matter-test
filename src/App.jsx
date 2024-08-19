@@ -45,7 +45,6 @@ function App() {
                     <li><Link to="/pyramid">Pyramid</Link></li>
                     <li><Link to="/ragdoll">Ragdoll</Link></li>
                     <li><Link to="/raycasting">Raycasting</Link></li>
-                    <li><Link to="/remove">Remove</Link></li>
                     <li><Link to="/restitution">Restitution</Link></li>
                     <li><Link to="/rounded">Rounded</Link></li>
                     <li><Link to="/sensors">Sensors</Link></li>
