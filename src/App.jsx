@@ -8,17 +8,18 @@ function App() {
           <nav>
               <ul>
                   <li><Link to="/">Home</Link></li>
-                  <li><Link to="/about">About</Link></li>
-                  <li><Link to="/contact">Contact</Link></li>
+
+{/* ---------     <li><Link to="/about">About</Link></li>    ------------- */} 
+
+{/* ---------     <li><Link to="/contact">Contact</Link></li>    ------------- */} 
+
                   <li><Link to="/bubbles">Bubbles</Link></li>
                   <li><Link to="/ball">Ball Pit</Link></li>
                     <li><Link to="/catapult">Catapult</Link></li>
                     <li><Link to="/bike">Bike</Link></li>
                     <li><Link to="/mousetrap">Mousetrap</Link></li>
-
                     <li><Link to="/avalanche">Avalanche</Link></li>
                     <li><Link to="/airfriction">Air Friction</Link></li>
-
                     <li><Link to="/bridge">Bridge</Link></li>
                     <li><Link to="/ballpool">Ball Pool</Link></li>
                     <li><Link to="/car">Car</Link></li>
@@ -41,7 +42,7 @@ function App() {
                     <li><Link to="/manipulation">Manipulation</Link></li>
                     <li><Link to="/mixed">Mixed</Link></li>
                     <li><Link to="/motor">Motor</Link></li>
-                    <li><Link to="/newtonsCradle">Newton's Cradle</Link></li>
+                    <li><Link to="/newtonsCradle">Newton&apos;s Cradle</Link></li>
                     <li><Link to="/pyramid">Pyramid</Link></li>
                     <li><Link to="/ragdoll">Ragdoll</Link></li>
                     <li><Link to="/raycasting">Raycasting</Link></li>
@@ -66,9 +67,6 @@ function App() {
                     <li><Link to="/views">Views</Link></li>
                     <li><Link to="/wreckingball">Wrecking Ball</Link></li>
                     <li><Link to="/mixed">Mixed</Link></li>
-
-
-
 
               </ul>
           </nav>
