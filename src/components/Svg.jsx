@@ -39,12 +39,12 @@ const SvgDemo = () => {
 
         // List of SVG paths to load
         const svgPaths = [
-         //   '../../public/svg.svg',
-         //  '../../public/toilet-paper-com.svg'
-
-         //'../../public/iconmonstr-puzzle-icon.svg'
-
-         '../../public/SVGlogo.svg'
+         '../../public/iconmonstr-check-mark-8-icon.svg',
+            '../../public/iconmonstr-user-icon.svg',
+            '../../public/iconmonstr-paperclip-2-icon.svg',
+            '../../public/iconmonstr-direction-4-icon.svg',
+            '../../public/iconmonstr-puzzle-icon.svg',
+            '../../public/svg.svg',
         ];
 
         svgPaths.forEach((path, i) => {

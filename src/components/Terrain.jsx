@@ -1,23 +1,12 @@
 import { useEffect, useRef } from 'react';
-import Matter from 'matter-js';
+import { Engine, Render, Query, Svg, Runner, Composite, Composites, Bodies, MouseConstraint, Mouse } from 'matter-js';
+
 import 'poly-decomp'; // Ensure you have this library available
 
 const TerrainDemo = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        const {
-            Engine,
-            Render,
-            Runner,
-            Composites,
-            MouseConstraint,
-            Mouse,
-            Composite,
-            Query,
-            Svg,
-            Bodies
-        } = Matter;
 
         // Initialize the Matter.js engine
         const engine = Engine.create();
@@ -30,7 +19,7 @@ const TerrainDemo = () => {
             options: {
                 width: 800,
                 height: 600,
-                wireframes: false, // Render filled shapes
+                wireframes: true, // Render unfilled shapes
                 background: '#ffffff' // Background color
             }
         });
