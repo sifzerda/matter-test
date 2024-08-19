@@ -33,6 +33,7 @@ import Events from './pages/Events';
 import Friction from './pages/Friction';
 import Gravity from './pages/Gravity';
 import Gyro from './pages/Gyro';
+import Jigsaw from './pages/Jigsaw';
 import Manipulation from './pages/Manipulation';
 import Mixed from './pages/Mixed';
 import Motor from './pages/Motor';
@@ -103,6 +104,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='friction' element={<Friction />} />
 <Route path='gravity' element={<Gravity />} />
 <Route path='gyro' element={<Gyro />} />
+<Route path='jigsaw' element={<Jigsaw />} />
 <Route path='manipulation' element={<Manipulation />} />
 <Route path='mixed' element={<Mixed />} />
 <Route path='motor' element={<Motor />} />

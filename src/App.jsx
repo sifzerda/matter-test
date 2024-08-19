@@ -39,6 +39,7 @@ function App() {
                     <li><Link to="/friction">Friction</Link></li>
                     <li><Link to="/gravity">Gravity</Link></li>
                     <li><Link to="/gyro">Gyro</Link></li>
+                    <li><Link to="/jigsaw">Jigsaw</Link></li>
                     <li><Link to="/manipulation">Manipulation</Link></li>
                     <li><Link to="/mixed">Mixed</Link></li>
                     <li><Link to="/motor">Motor</Link></li>
