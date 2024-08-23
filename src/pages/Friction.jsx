@@ -3,7 +3,7 @@ import Friction from '../components/Friction';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Friction />
         </div>

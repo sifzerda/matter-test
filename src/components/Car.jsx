@@ -138,7 +138,7 @@ const Car = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Car</h1>
       <p>Click and drag to interact with the cars</p>
     </div>

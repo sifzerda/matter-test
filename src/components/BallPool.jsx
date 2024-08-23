@@ -103,7 +103,7 @@ const BallPool = () => {
 
   }, []); // Empty dependency array to ensure this runs only once
 
-  return <div ref={canvasRef} style={{ width: '800px', height: '600px' }} />;
+  return <div className='game-window' ref={canvasRef} style={{ width: '800px', height: '600px' }} />;
 };
 
 export default BallPool;

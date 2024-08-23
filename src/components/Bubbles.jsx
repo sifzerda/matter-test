@@ -54,7 +54,7 @@ const Ballx = () => {
     };
 
     const addBallsGradually = () => {
-      const numberOfBalls = 1;
+      const numberOfBalls = 2;
       const newBalls = [];
       for (let i = 0; i < numberOfBalls; i++) {
         newBalls.push(createBall());
@@ -157,7 +157,7 @@ const Ballx = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Bubbles</h1>
       <p>Click and drag to interact with the bubbles</p>
     </div>

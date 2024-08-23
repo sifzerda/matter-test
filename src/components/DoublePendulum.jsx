@@ -141,7 +141,7 @@ const DoublePendulum = () => {
     }, []);
 
     return (
-        <div ref={canvasRef} />
+        <div className='game-window' ref={canvasRef} />
     );
 };
 

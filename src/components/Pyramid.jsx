@@ -68,7 +68,7 @@ const Pyramid = () => {
         };
     }, []);
 
-    return <div ref={canvasRef} />;
+    return <div className='game-window' ref={canvasRef} />;
 };
 
 export default Pyramid;

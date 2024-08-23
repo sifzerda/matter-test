@@ -3,7 +3,7 @@ import AirFriction from '../components/AirFriction';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>Air Friction</h1>
             <p>Drag the squares to demonstrate air friction</p>
             <AirFriction />

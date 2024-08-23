@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Engine, Render, Query, Svg, Runner, Composite, Composites, Bodies, MouseConstraint, Mouse } from 'matter-js';
 
-import 'poly-decomp'; // Ensure you have this library available
+import 'poly-decomp'; 
 
 const TerrainDemo = () => {
     const canvasRef = useRef(null);
@@ -123,10 +123,7 @@ const TerrainDemo = () => {
     }, []);
 
     return (
-        <div
-            ref={canvasRef}
-            style={{ width: '800px', height: '600px', border: '1px solid #000' }}
-        />
+        <div className='game-window' ref={canvasRef}/>
     );
 };
 

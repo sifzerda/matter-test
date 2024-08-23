@@ -73,7 +73,7 @@ const CircleStack = () => {
 
     return (
         <div>
-            <div ref={canvasRef} />
+            <div className='game-window' ref={canvasRef} />
         </div>
     );
 };

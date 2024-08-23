@@ -3,7 +3,7 @@ import NewtonsCradle from '../components/NewtonsCradle';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <NewtonsCradle />
         </div>

@@ -85,7 +85,7 @@ const FrictionExample = () => {
 
     // Render the canvas container
     return (
-        <div ref={canvasRef} />
+        <div className='game-window' ref={canvasRef} />
     );
 };
 

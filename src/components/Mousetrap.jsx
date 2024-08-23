@@ -156,7 +156,7 @@ const MousetrapGame = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Mousetrap Game</h1>
       <p>Click on the rod to see it spring!</p>
     </div>

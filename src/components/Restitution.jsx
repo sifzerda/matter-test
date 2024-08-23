@@ -77,10 +77,7 @@ const RestitutionDemo = () => {
     }, []);
 
     return (
-        <div
-            ref={canvasRef}
-            style={{ width: '800px', height: '600px', border: '1px solid #000' }}
-        />
+        <div className='game-window' ref={canvasRef}/>
     );
 };
 

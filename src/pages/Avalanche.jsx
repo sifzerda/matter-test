@@ -3,7 +3,7 @@ import Avalanche from '../components/Avalanche';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>Avalanche!</h1>
             <p>Click and drag the balls</p>
             <Avalanche />

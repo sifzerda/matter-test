@@ -3,7 +3,7 @@ import Rounded from '../components/Rounded';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Rounded />
         </div>

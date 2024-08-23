@@ -103,7 +103,7 @@ const Ballx = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Bike</h1>
       <p>Click and drag to interact with the bubbles</p>
     </div>

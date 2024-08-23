@@ -129,7 +129,7 @@ const Ballx = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}></div>
+    <div className="game-window" ref={gameRef}></div>
   );
 };
 

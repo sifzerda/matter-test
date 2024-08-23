@@ -88,7 +88,7 @@ const NewtonsCradle = () => {
         };
     }, []);
 
-    return <div ref={canvasRef} />;
+    return <div className='game-window' ref={canvasRef} />;
 };
 
 export default NewtonsCradle;

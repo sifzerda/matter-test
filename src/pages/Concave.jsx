@@ -3,7 +3,7 @@ import Concave from '../components/Concave';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Concave />
         </div>

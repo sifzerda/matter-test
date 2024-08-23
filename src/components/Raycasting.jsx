@@ -130,7 +130,7 @@ const Raycasting = () => {
     }, []);
 
     return (
-        <div ref={canvasRef} style={{ width: '800px', height: '600px' }} />
+        <div className='game-window' ref={canvasRef} style={{ width: '800px', height: '600px' }} />
     );
 };
 

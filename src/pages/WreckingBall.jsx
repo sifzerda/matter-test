@@ -3,7 +3,7 @@ import WreckingBall from '../components/WreckingBall';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <WreckingBall />
         </div>

@@ -3,7 +3,7 @@ import Slingshot from '../components/Slingshot';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Slingshot />
         </div>

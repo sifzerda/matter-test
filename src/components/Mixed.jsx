@@ -87,7 +87,7 @@ const MixedShapes = () => {
     }, []);
 
     return (
-        <div ref={canvasRef} />
+        <div className='game-window' ref={canvasRef} />
     );
 };
 

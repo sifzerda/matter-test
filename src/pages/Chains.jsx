@@ -3,7 +3,7 @@ import Chains from '../components/Chains';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Chains />
         </div>

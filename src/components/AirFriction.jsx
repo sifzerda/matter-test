@@ -79,7 +79,7 @@ const MatterComponent = () => {
     };
   }, []);
 
-  return <div ref={canvasRef} style={{ width: '800px', height: '600px' }} />;
+  return <div className='game-window' ref={canvasRef} />;
 };
 
 export default MatterComponent;

@@ -3,7 +3,7 @@ import Stress4 from '../components/Stress4';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Stress4 />
         </div>

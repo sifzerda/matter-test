@@ -4,7 +4,7 @@ import '../bubbles.css'
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Bubbles />
         </div>

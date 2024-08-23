@@ -3,7 +3,7 @@ import SoftBody from '../components/SoftBody';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <SoftBody />
         </div>

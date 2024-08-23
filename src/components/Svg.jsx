@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Engine, Render, Runner, Common, Vertices, Svg, Composite, Bodies, MouseConstraint, Mouse } from 'matter-js';
 import decomp from 'poly-decomp';
 
-window.decomp = decomp; // poly-decomp is available globally
+window.decomp = decomp; 
 
 const SvgDemo = () => {
     const canvasRef = useRef(null);
@@ -107,10 +107,7 @@ const SvgDemo = () => {
     }, []);
 
     return (
-        <div
-            ref={canvasRef}
-            style={{ width: '800px', height: '600px', border: '1px solid #000' }}
-        />
+        <div className='game-window' ref={canvasRef}/>
     );
 };
 

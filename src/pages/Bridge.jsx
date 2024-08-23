@@ -3,7 +3,7 @@ import Bridge from '../components/Bridge';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Bridge />
         </div>

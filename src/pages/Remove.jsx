@@ -3,7 +3,7 @@ import Remove from '../components/Remove';
 
 function About() {
     return (
-        <div>
+        <div className='center-screen'>
             <h1>About Page</h1>
             <Remove />
         </div>

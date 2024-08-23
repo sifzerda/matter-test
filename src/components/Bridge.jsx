@@ -138,7 +138,7 @@ const Bridge = () => {
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Bridge</h1>
       <p>Click and drag to interact</p>
     </div>
