@@ -1,38 +1,113 @@
 import { useState, useEffect, useRef } from 'react';
-import Matter, { Engine, Render, World, Mouse, MouseConstraint, Bodies } from 'matter-js';
+import Matter, { Engine, Render, Runner, Composite, Bodies, Constraint, Mouse, MouseConstraint, Body } from 'matter-js';
 import MatterWrap from 'matter-wrap';
 import decomp from 'poly-decomp';
+
+// Define Example.car function within the component
+const ExampleBike = (xx, yy, width, height, wheelSize) => {
+  const group = Body.nextGroup(true);
+  const wheelBase = 20;
+  const wheelAOffset = -width * 0.5 + wheelBase;
+  const wheelBOffset = width * 0.5 - wheelBase;
+  const wheelYOffset = 0;
+
+  var bike = Composite.create({ label: 'Bike' }),
+  body = Bodies.rectangle(xx, yy, width, height, { 
+      collisionFilter: {
+          group: group
+      },
+      chamfer: {
+          radius: height * 0.5
+      },
+      density: 0.0002
+  });
+
+  var wheelA = Bodies.circle(xx + wheelAOffset, yy + wheelYOffset, wheelSize, { 
+    collisionFilter: {
+        group: group
+    },
+    friction: 0.8
+});
+            
+var wheelB = Bodies.circle(xx + wheelBOffset, yy + wheelYOffset, wheelSize, { 
+    collisionFilter: {
+        group: group
+    },
+    friction: 0.8
+});
+  
+  var axelA = Constraint.create({
+    bodyB: body,
+    pointB: { x: wheelAOffset, y: wheelYOffset },
+    bodyA: wheelA,
+    stiffness: 1,
+    length: 0
+});
+                
+var axelB = Constraint.create({
+    bodyB: body,
+    pointB: { x: wheelBOffset, y: wheelYOffset },
+    bodyA: wheelB,
+    stiffness: 1,
+    length: 0
+});
+
+  Composite.addBody(bike, body);
+  Composite.addBody(bike, wheelA);
+  Composite.addBody(bike, wheelB);
+  Composite.addConstraint(bike, axelA);
+  Composite.addConstraint(bike, axelB);
+
+  return bike;
+};
 
 const Bikex = () => {
   const [engine] = useState(Engine.create());
   const gameRef = useRef(null);
-  const mouseConstraintRef = useRef(null);
-
-  window.decomp = decomp; // poly-decomp is available globally
 
   useEffect(() => {
-    console.log('Component mounted or updated');
-    Matter.use(MatterWrap);
-    engine.world.gravity.y = 0.1; // Set gravity to a small value to simulate gradual dropping
+    window.decomp = decomp;
 
-    const width = 1500;
-    const height = 680;
+    Matter.use(MatterWrap);
+    engine.world.gravity.y = 1.0;
 
     const render = Render.create({
       element: gameRef.current,
       engine,
       options: {
-        width,
-        height,
-        wireframes: false
+        width: 1500,
+        height: 680,
+        wireframes: true
       }
     });
     Render.run(render);
 
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
 
-    // Setup mouse constraint for dragging
+    // Add bodies and bike to the world
+    Composite.add(engine.world, [
+        // walls
+        Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
+        Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
+        Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
+        Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
+    ]);
+
+    // Create and add bikes
+    const scale1 = 0.9;
+    Composite.add(engine.world, ExampleBike(150, 100, 150 * scale1, 30 * scale1, 30 * scale1));
+    
+    const scale2 = 0.8;
+    Composite.add(engine.world, ExampleBike(350, 300, 150 * scale2, 30 * scale2, 30 * scale2));
+    
+    Composite.add(engine.world, [
+        Bodies.rectangle(200, 150, 400, 20, { isStatic: true, angle: Math.PI * 0.06, render: { fillStyle: '#060a19' }}),
+        Bodies.rectangle(500, 350, 650, 20, { isStatic: true, angle: -Math.PI * 0.06, render: { fillStyle: '#060a19' }}),
+        Bodies.rectangle(300, 560, 600, 20, { isStatic: true, angle: Math.PI * 0.04, render: { fillStyle: '#060a19' }})
+    ]);
+
+    // Add mouse control
     const mouse = Mouse.create(render.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
@@ -43,89 +118,29 @@ const Bikex = () => {
         }
       }
     });
-    mouseConstraintRef.current = mouseConstraint;
-    World.add(engine.world, mouseConstraint);
 
-    // Create the wheel
-    const wheel = Matter.Bodies.circle(400, 200, 50, {
-      render: {
-        fillStyle: 'blue'
-      }
+    Composite.add(engine.world, mouseConstraint);
+    render.mouse = mouse;
+
+    // Fit the render viewport to the scene
+    Render.lookAt(render, {
+      min: { x: 0, y: 0 },
+      max: { x: 1500, y: 680 }
     });
-
-    // Create the rod (increased height)
-    const rod = Matter.Bodies.rectangle(400, 100, 10, 200, { // Changed height from 100 to 200
-      render: {
-        fillStyle: 'red'
-      }
-    });
-
-    // Create a constraint to attach the rod to the wheel
-    const rodConstraint = Matter.Constraint.create({
-      bodyA: wheel,
-      bodyB: rod,
-      pointA: { x: 0, y: -50 }, // Point on the wheel where the rod is attached
-      pointB: { x: 0, y: 100 }, // Point on the rod where it is attached to the wheel (adjusted to match new length)
-      stiffness: 0.5,
-      length: 0
-    });
-
-    // Create boundary walls
-    const walls = [
-      // Top wall
-      Bodies.rectangle(width / 2, 0, width, 50, {
-        isStatic: true,
-        render: {
-          fillStyle: 'grey'
-        }
-      }),
-      // Bottom wall
-      Bodies.rectangle(width / 2, height, width, 50, {
-        isStatic: true,
-        render: {
-          fillStyle: 'grey'
-        }
-      }),
-      // Left wall
-      Bodies.rectangle(0, height / 2, 50, height, {
-        isStatic: true,
-        render: {
-          fillStyle: 'grey'
-        }
-      }),
-      // Right wall
-      Bodies.rectangle(width, height / 2, 50, height, {
-        isStatic: true,
-        render: {
-          fillStyle: 'grey'
-        }
-      })
-    ];
-
-    // Add bodies and constraints to the world
-    World.add(engine.world, [wheel, rod, rodConstraint, ...walls]);
-
-    const cleanup = () => {
-      console.log('Cleaning up...');
-      Render.stop(render);
-      World.clear(engine.world);
-      Engine.clear(engine);
-      World.remove(engine.world, mouseConstraintRef.current);
-      mouseConstraintRef.current = null;
-    };
-
-    window.addEventListener('beforeunload', cleanup);
 
     return () => {
-      console.log('Component will unmount');
-      window.removeEventListener('beforeunload', cleanup);
-      cleanup();
+      Render.stop(render);
+      Runner.stop(runner);
+      engine.world.bodies.forEach(body => {
+        Composite.remove(engine.world, body);
+      });
     };
   }, [engine]);
 
   return (
-    <div className="game-container" ref={gameRef}>
+    <div className="game-window" ref={gameRef}>
       <h1>Bike</h1>
+      <p>Click and drag to interact with the bikes</p>
     </div>
   );
 };
