@@ -110,14 +110,15 @@ npm run start
 
 ### Demos I made:
 
-+ Ball Pit [x]
-+ Bubbles [x]
-+ Bike [x]
-+ Mousetrap [x]
-+ Jigsaw [ ]:
-  + Render images on jigsaw pieces
-  + Enable pieces to lock once connected
-  + Piece positioning on board
++ [x] Ball Pit
++ [x] Bubbles [x]
++ [x] Bike [x]
++ [x] Mousetrap [x]
++ [ ] Jigsaw:
+  + [ ] Render images on jigsaw pieces
+  + [ ] Enable pieces to lock once connected
+  + [ ] Piece positioning on board
++ [x] Air Hockey
 
 ## (6) Dev Stuff: Building:
 

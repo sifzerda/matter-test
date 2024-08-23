@@ -2,13 +2,13 @@ import { Link, Outlet } from 'react-router-dom';
 import './App.css'
 
 // Import SVG file
-import SVGLogo from '/public/matter-js.svg'; // Adjust the path as needed
+import SVGLogo from '/matter-js.svg'; // Adjust the path as needed
 
 function App() {
   return (
       <div>
 
-<img className='logo' src={SVGLogo } alt="Description of SVG" />
+<img className='logo' src={SVGLogo} alt="Description of SVG" />
 
           <nav>
               <ul>
@@ -21,6 +21,7 @@ function App() {
 {/* ---------     <li><Link to="/contact">Contact</Link></li>    ------------- */} 
 
 <li><Link to="/airfriction">Air Friction</Link></li>
+<li><Link to="/airhockey">Air Hockey</Link></li>
 <li><Link to="/avalanche">Avalanche</Link></li>
 <li><Link to="/ball">Ball Pit</Link></li>
 <li><Link to="/ballpool">Ball Pool</Link></li>
@@ -38,7 +39,6 @@ function App() {
 <li><Link to="/concave">Concave</Link></li>
 <li><Link to="/constraints">Constraints</Link></li>
 <li><Link to="/convex">Convex</Link></li>
-<li><Link to="/density">Density</Link></li>
 <li><Link to="/doublependulum">Double Pendulum</Link></li>
 <li><Link to="/events">Events</Link></li>
 <li><Link to="/friction">Friction</Link></li>

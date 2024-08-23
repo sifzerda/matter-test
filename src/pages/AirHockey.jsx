@@ -1,11 +1,10 @@
 // src/pages/About.jsx
-import Bubbles from '../components/Bubbles';
+import Tetris from '../components/AirHockey';
 
 function About() {
     return (
         <div className='center-screen'>
-            <h1>About Page</h1>
-            <Bubbles />
+            <Tetris />
         </div>
     );
 }

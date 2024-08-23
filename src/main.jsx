@@ -28,7 +28,7 @@ import Concave from './pages/Concave';
 import Constraints from './pages/Constraints';
 import DoublePendulum from './pages/DoublePendulum';
 import Convex from './pages/Convex';
-import Density from './pages/Density';
+import AirHockey from './pages/AirHockey';
 import Events from './pages/Events';
 import Friction from './pages/Friction';
 import Gravity from './pages/Gravity';
@@ -61,9 +61,6 @@ import Terrain from './pages/Terrain';
 import Timescale from './pages/Timescale';
 import Views from './pages/Views';
 import WreckingBall from './pages/WreckingBall';
-
-
-
 import AirFriction from './pages/AirFriction';
 
 // Render the application without React.StrictMode
@@ -99,7 +96,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='constraints' element={<Constraints />} />
 <Route path='convex' element={<Convex />} />
 <Route path='doublependulum' element={<DoublePendulum />} />
-<Route path='density' element={<Density />} />
 <Route path='events' element={<Events />} />
 <Route path='friction' element={<Friction />} />
 <Route path='gravity' element={<Gravity />} />
@@ -129,6 +125,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='substep' element={<Substep />} />
 <Route path='svg' element={<Svg />} />
 <Route path='terrain' element={<Terrain />} />
+<Route path='airhockey' element={<AirHockey />} />
 <Route path='timescale' element={<Timescale />} />
 <Route path='views' element={<Views />} />
 <Route path='wreckingball' element={<WreckingBall />} />

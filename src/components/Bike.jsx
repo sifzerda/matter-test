@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import Matter, { Engine, Render, World, Bodies, Mouse, MouseConstraint } from 'matter-js';
+import Matter, { Engine, Render, World, Mouse, MouseConstraint } from 'matter-js';
 import MatterWrap from 'matter-wrap';
 import decomp from 'poly-decomp';
 
-const Ballx = () => {
+const Bikex = () => {
   const [engine] = useState(Engine.create());
-  const [balls, setBalls] = useState([]);
   const gameRef = useRef(null); // Ensure gameRef is initialized
   const mouseConstraintRef = useRef(null); // Ref to hold the mouse constraint
 
@@ -22,51 +21,13 @@ const Ballx = () => {
       options: {
         width: 1500,
         height: 680,
-        wireframes: true
+        wireframes: false
       }
     });
     Render.run(render);
 
     const runner = Matter.Runner.create();
     Matter.Runner.run(runner, engine);
-
-    // Helper function to create a ball
-    const createBall = () => {
-      const radius = Math.random() * 40 + 5; // Random radius between 5 and 45
-      const ball = Bodies.circle(Math.random() * 1500, -radius * 2, radius, { // Start above the screen
-        restitution: 0.8, // Bounciness of the ball
-        friction: 0.1,
-        frictionAir: 0.01,
-        render: {
-          fillStyle: 'transparent',
-          strokeStyle: '#ffffff',
-          lineWidth: 2
-        },
-        plugin: {
-          wrap: {
-            min: { x: 0, y: 0 },
-            max: { x: 1500, y: 680 }
-          }
-        }
-      });
-
-      World.add(engine.world, ball);
-
-      return ball;
-    };
-
-    // Function to add balls gradually
-    const addBallsGradually = () => {
-      const numberOfBalls = 1; // Number of balls to add each interval
-      const newBalls = [];
-      for (let i = 0; i < numberOfBalls; i++) {
-        newBalls.push(createBall());
-      }
-      setBalls(prevBalls => [...prevBalls, ...newBalls]);
-    };
-
-    // Add balls every 200 milliseconds
-    const intervalId = setInterval(addBallsGradually, 200);
 
     // Setup mouse constraint for dragging
     const mouse = Mouse.create(render.canvas);
@@ -89,7 +50,6 @@ const Ballx = () => {
       Engine.clear(engine);
       World.remove(engine.world, mouseConstraintRef.current);
       mouseConstraintRef.current = null;
-      clearInterval(intervalId); // Clear the interval when cleaning up
     };
 
     // Attach cleanup function to the window's beforeunload event
@@ -103,11 +63,11 @@ const Ballx = () => {
   }, [engine]);
 
   return (
-    <div className="game-window" ref={gameRef}>
-      <h1>Bike</h1>
+    <div className="game-container" ref={gameRef}>
+      <h1>Bubbles</h1>
       <p>Click and drag to interact with the bubbles</p>
     </div>
   );
 };
 
-export default Ballx;
+export default Bikex;
