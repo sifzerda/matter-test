@@ -80,6 +80,13 @@ nav a:hover {
   display: block;  
 }
 
+.logo {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
 /* MEDIA QUERIES---------------------------------------------------------- */
 
 @media (max-width: 620px) {
