@@ -44,7 +44,7 @@ I also created some examples including ball pit, bubbles, mousetrap, jigsaw, and
 
 ## (3) Visuals
 
-[Visit App deployed to ???](https://asteroids-10-d02b9b752090.herokuapp.com/)
+[Visit App deployed to ???](https://66c9775cff6a242bbc0f1342--matter-test.netlify.app/)
 
 ![matter-js-screenshot](???)
 
@@ -165,7 +165,20 @@ window.decomp = decomp;
 
 ## (8) Bugs and Further Development: 
 
-- N/A
+- Some CSS formatting needed:
+  - Resizing game screen window sizes
+- Assets not loading in:
+  - SVG
+  - Jigsaw
+  - Sprites
+- Components not loading:
+  - Air Hockey
+  - Avalanche
+  - Ball Pool
+  - Terrain
+- Components with no content:
+  - Convex (need to add)
+  - Motor
 
 Optimization:
 - use react-virtualized to only render visible stuff
