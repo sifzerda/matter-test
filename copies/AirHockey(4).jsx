@@ -1,3 +1,6 @@
+// game
+// 
+
 import { useState, useEffect, useRef } from 'react';
 import Matter, { Engine, Render, World, Bodies, Body, Mouse, MouseConstraint, Events, Query } from 'matter-js';
 import MatterWrap from 'matter-wrap';
@@ -5,16 +8,50 @@ import PropTypes from 'prop-types'; // Import PropTypes
 
 // START SCREEN ================================================================//
 const StartScreen = ({ onStart }) => {
+  const [aiDifficulty, setAiDifficulty] = useState(2); // Default difficulty is 2
+
+  const handleDifficultyChange = (event) => {
+    setAiDifficulty(Number(event.target.value));
+  };
 
   const handleStartClick = () => {
-    onStart(); // Pass the selected difficulty to the start game handler
+    onStart(aiDifficulty); // Pass the selected difficulty to the start game handler
   };
 
   return (
     <div className="start-screen">
       <h1>Air Hockey in Matter.js</h1>
       <p>With AI opponent</p>
-
+      <div>
+        <h2>Select Difficulty</h2>
+        <label>
+          <input
+            type="radio"
+            value="1"
+            checked={aiDifficulty === 1}
+            onChange={handleDifficultyChange}
+          />
+          Easy
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="2"
+            checked={aiDifficulty === 2}
+            onChange={handleDifficultyChange}
+          />
+          Medium
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="3"
+            checked={aiDifficulty === 3}
+            onChange={handleDifficultyChange}
+          />
+          Hard
+        </label>
+      </div>
       <button onClick={handleStartClick}>Start Game</button>
     </div>
   );
@@ -31,12 +68,12 @@ StartScreen.propTypes = {
 const AirHockey = () => {
   const [engine] = useState(Engine.create());
   const [gameActive, setGameActive] = useState(false); // Track game state
+  const gameRef = useRef(null);
   const [leftPaddle, setLeftPaddle] = useState(null);
   const [rightPaddle, setRightPaddle] = useState(null);
   const [puck, setPuck] = useState(null);
   const [score, setScore] = useState({ left: 0, right: 0 });
-
-  const gameRef = useRef(null);
+  const [aiDifficulty, setAiDifficulty] = useState(2); // Default difficulty is 2
 
   useEffect(() => {
     if (!gameActive) return;
@@ -111,24 +148,57 @@ const AirHockey = () => {
     });
     World.add(engine.world, mouseConstraint);
 
- // Update paddle positions based on mouse movement and AI behavior
- Events.on(engine, 'beforeUpdate', () => {
-  if (mouseConstraint.body === leftPaddle) {
-    Body.setPosition(leftPaddle, { x: mouse.position.x, y: leftPaddle.position.y });
-  }
+    // Update paddle positions based on mouse movement and AI behavior
+    Events.on(engine, 'beforeUpdate', () => {
+      // Update the left paddle based on mouse movement
+      if (mouseConstraint.body === leftPaddle) {
+        const newY = Math.max(
+          Math.min(mouse.position.y, tableHeight / 2 - paddleRadius),
+          tableHeight / 2 - tableHeight + paddleRadius
+        );
+        Body.setPosition(leftPaddle, { x: leftPaddle.position.x, y: newY });
+      }
 
-  // AI Movement for the right paddle
-  if (rightPaddle) {
-    const puckY = puck.position.y;
-    const paddleY = rightPaddle.position.y;
-    const paddleSpeed = 5;
+      // AI Movement for the right paddle
+      if (rightPaddle && puck) {
+        const puckY = puck.position.y;
+        const paddleY = rightPaddle.position.y;
+        const paddleSpeed = 2 + aiDifficulty; // Adjust AI speed based on difficulty
+        const predictiveFactor = 0.2 / aiDifficulty; // Adjust prediction accuracy based on difficulty
 
-    if (puckY > paddleY) {
-      Body.setPosition(rightPaddle, { x: rightPaddle.position.x, y: Math.min(paddleY + paddleSpeed, tableHeight - 30) });
-    } else {
-      Body.setPosition(rightPaddle, { x: rightPaddle.position.x, y: Math.max(paddleY - paddleSpeed, 30) });
-    }
-  }
+        // Predict puck position based on its velocity
+        const puckVelocity = puck.velocity;
+        const predictedPuckY = puckY + puckVelocity.y * predictiveFactor;
+
+        // Adjust AI position with some delay for more difficulty
+        const delay = aiDifficulty * 2; // Increase delay for harder difficulties
+
+        // Smooth AI movement
+        if (predictedPuckY > paddleY + 10) {
+          Body.setPosition(rightPaddle, { 
+            x: rightPaddle.position.x, 
+            y: Math.min(paddleY + paddleSpeed, tableHeight / 2 - paddleRadius) 
+          });
+        } else if (predictedPuckY < paddleY - 10) {
+          Body.setPosition(rightPaddle, { 
+            x: rightPaddle.position.x, 
+            y: Math.max(paddleY - paddleSpeed, tableHeight / 2 + paddleRadius) 
+          });
+        }
+
+        // Offensive strategy: move AI paddle towards a scoring position
+        if (Math.abs(puck.position.x - rightPaddle.position.x) < 200) {
+          // AI actively tries to intercept puck for scoring
+          const scoringY = Math.min(
+            Math.max(puck.position.y + (Math.random() - 0.5) * 50, tableHeight / 2 - paddleRadius),
+            tableHeight / 2 + paddleRadius
+          );
+          Body.setPosition(rightPaddle, { 
+            x: rightPaddle.position.x, 
+            y: scoringY 
+          });
+        }
+      }
 
       // Check for goals
       if (isPuckInGoal(puck, goals[0])) {
@@ -170,9 +240,10 @@ const AirHockey = () => {
       window.removeEventListener('beforeunload', cleanup);
       cleanup();
     };
-  }, [engine, gameActive]); // Re-run effect when aiDifficulty or gameActive changes
+  }, [engine, aiDifficulty, gameActive]); // Re-run effect when aiDifficulty or gameActive changes
 
-  const startGame = () => {
+  const startGame = (difficulty) => {
+    setAiDifficulty(difficulty);
     setGameActive(true); // Set game state to active
   };
 
