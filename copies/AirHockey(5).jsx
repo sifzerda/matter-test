@@ -1,3 +1,8 @@
+// game
+// ai opponent (no difficulty setting/radio switch)
+//  ai tries to stop goals, but does not shoot goals
+// start screen 
+
 import { useState, useEffect, useRef } from 'react';
 import Matter, { Engine, Render, World, Bodies, Body, Mouse, MouseConstraint, Events, Query } from 'matter-js';
 import MatterWrap from 'matter-wrap';
@@ -5,14 +10,16 @@ import PropTypes from 'prop-types'; // Import PropTypes
 
 // START SCREEN ================================================================//
 const StartScreen = ({ onStart }) => {
+
   const handleStartClick = () => {
-    onStart(); // Start the game
+    onStart(); // Pass the selected difficulty to the start game handler
   };
 
   return (
     <div className="start-screen">
       <h1>Air Hockey in Matter.js</h1>
       <p>With AI opponent</p>
+
       <button onClick={handleStartClick}>Start Game</button>
     </div>
   );
@@ -33,14 +40,14 @@ const AirHockey = () => {
   const [rightPaddle, setRightPaddle] = useState(null);
   const [puck, setPuck] = useState(null);
   const [score, setScore] = useState({ left: 0, right: 0 });
-  const [difficulty, setDifficulty] = useState(1); // AI difficulty level
+
   const gameRef = useRef(null);
 
   useEffect(() => {
     if (!gameActive) return;
 
     Matter.use(MatterWrap);
-    engine.world.gravity.y = 0; // No gravity
+    engine.world.gravity.y = 0; // No gravity 
 
     const render = Render.create({
       element: gameRef.current,
@@ -48,8 +55,8 @@ const AirHockey = () => {
       options: {
         width: 800,
         height: 600,
-        wireframes: false,
-      },
+        wireframes: false
+      }
     });
     Render.run(render);
 
@@ -66,15 +73,21 @@ const AirHockey = () => {
       Bodies.rectangle(tableWidth / 2, tableHeight - tableThickness / 2, tableWidth, tableThickness, { isStatic: true }), // Bottom border
       Bodies.rectangle(tableThickness / 2, tableHeight / 2, tableThickness, tableHeight, { isStatic: true }), // Left border
       Bodies.rectangle(tableWidth - tableThickness / 2, tableHeight / 2, tableThickness, tableHeight, { isStatic: true }), // Right border
-      Bodies.rectangle(tableWidth / 2, tableHeight / 2, 10, tableHeight, { isStatic: true, isSensor: true, render: { fillStyle: '#aaa' } }), // Center line
+      Bodies.rectangle(tableWidth / 2, tableHeight / 2, 10, tableHeight, { isStatic: true, isSensor: true, render: { fillStyle: '#aaa' } }) // Center line
     ];
 
     // Create goals
     const goalWidth = 100;
     const goalDepth = 10;
     const goals = [
-      Bodies.rectangle(goalWidth / 2, tableHeight / 2, goalDepth, tableHeight, { isStatic: true, isSensor: true, render: { fillStyle: '#f00' } }), // Left goal
-      Bodies.rectangle(tableWidth - goalWidth / 2, tableHeight / 2, goalDepth, tableHeight, { isStatic: true, isSensor: true, render: { fillStyle: '#00f' } }), // Right goal
+      Bodies.rectangle(goalWidth / 2, tableHeight / 2, goalDepth, tableHeight, { 
+        isStatic: true, 
+        isSensor: true, 
+        render: { fillStyle: '#f00' } }), // Left goal
+      Bodies.rectangle(tableWidth - goalWidth / 2, tableHeight / 2, goalDepth, tableHeight, { 
+        isStatic: true, 
+        isSensor: true, 
+        render: { fillStyle: '#00f' } }), // Right goal
     ];
     World.add(engine.world, [...table, ...goals]);
 
@@ -98,35 +111,29 @@ const AirHockey = () => {
       mouse,
       constraint: {
         stiffness: 0.1,
-        render: { visible: false },
-      },
+        render: { visible: false }
+      }
     });
     World.add(engine.world, mouseConstraint);
 
-    // Update paddle positions based on mouse movement and AI behavior
-    Events.on(engine, 'beforeUpdate', () => {
-      if (mouseConstraint.body === leftPaddle) {
-        Body.setPosition(leftPaddle, { x: mouse.position.x, y: leftPaddle.position.y });
-      }
+ // Update paddle positions based on mouse movement and AI behavior
+ Events.on(engine, 'beforeUpdate', () => {
+  if (mouseConstraint.body === leftPaddle) {
+    Body.setPosition(leftPaddle, { x: mouse.position.x, y: leftPaddle.position.y });
+  }
 
-      // AI Movement for the right paddle
-      if (rightPaddle && puck) {
-        const puckX = puck.position.x;
-        const puckY = puck.position.y;
-        const paddleX = rightPaddle.position.x;
-        const paddleY = rightPaddle.position.y;
-        const paddleSpeed = 4 * difficulty; // Difficulty affects speed
+  // AI Movement for the right paddle
+  if (rightPaddle) {
+    const puckY = puck.position.y;
+    const paddleY = rightPaddle.position.y;
+    const paddleSpeed = 5;
 
-        // Position AI paddle between the puck and the goal
-        const goalX = tableWidth - 100; // X position of the right goal
-        const idealPaddleX = Math.min(Math.max(puckX, tableWidth - paddleRadius - 30), goalX - paddleRadius);
-
-        // Move the paddle to block the puck
-        Body.setPosition(rightPaddle, {
-          x: Math.min(Math.max(idealPaddleX, paddleRadius), tableWidth - paddleRadius - 30),
-          y: Math.min(Math.max(puckY, paddleRadius), tableHeight - paddleRadius - 30)
-        });
-      }
+    if (puckY > paddleY) {
+      Body.setPosition(rightPaddle, { x: rightPaddle.position.x, y: Math.min(paddleY + paddleSpeed, tableHeight - 30) });
+    } else {
+      Body.setPosition(rightPaddle, { x: rightPaddle.position.x, y: Math.max(paddleY - paddleSpeed, 30) });
+    }
+  }
 
       // Check for goals
       if (isPuckInGoal(puck, goals[0])) {
@@ -154,6 +161,7 @@ const AirHockey = () => {
 
     // Cleanup function
     const cleanup = () => {
+      console.log('Cleaning up...');
       Render.stop(render);
       World.clear(engine.world);
       Engine.clear(engine);
@@ -163,14 +171,14 @@ const AirHockey = () => {
     window.addEventListener('beforeunload', cleanup);
 
     return () => {
+      console.log('Component will unmount');
       window.removeEventListener('beforeunload', cleanup);
       cleanup();
     };
-  }, [engine, gameActive, difficulty]); // Re-run effect when gameActive or difficulty changes
+  }, [engine, gameActive]); // Re-run effect when aiDifficulty or gameActive changes
 
   const startGame = () => {
     setGameActive(true); // Set game state to active
-    setDifficulty(1); // Reset difficulty at the start
   };
 
   const goToMenu = () => {

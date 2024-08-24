@@ -1,3 +1,7 @@
+// ai opponent
+// start screen
+// ai blocks goals pretty well, no shooting
+
 import { useState, useEffect, useRef } from 'react';
 import Matter, { Engine, Render, World, Bodies, Body, Mouse, MouseConstraint, Events, Query } from 'matter-js';
 import MatterWrap from 'matter-wrap';
