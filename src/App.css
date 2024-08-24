@@ -75,8 +75,8 @@ nav a:hover {
 /* Style canvas */
 .game-window canvas {
   border: 3px solid var(--mid-blue);
-  width: 99%;   
-  height: 99%;  
+  width: 70%;   
+  height: 70%;  
   display: block;  
 }
 
