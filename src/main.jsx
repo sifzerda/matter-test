@@ -46,7 +46,7 @@ import Rounded from './pages/Rounded';
 import Sensors from './pages/Sensors';
 import Sleeping from './pages/Sleeping';
 import Slingshot from './pages/Slingshot';
-import Softbody from './pages/Softbody';
+import SoftBody from './pages/SoftBody';
 import Sprites from './pages/Sprites';
 import Stack from './pages/Stack';
 import StaticFriction from './pages/StaticFriction';
@@ -113,7 +113,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <Route path='sensors' element={<Sensors />} />
 <Route path='sleeping' element={<Sleeping />} />
 <Route path='slingshot' element={<Slingshot />} />
-<Route path='softbody' element={<Softbody />} />
+<Route path='softbody' element={<SoftBody />} />
 <Route path='sprites' element={<Sprites />} />
 <Route path='stack' element={<Stack />} />
 <Route path='staticfriction' element={<StaticFriction />} />

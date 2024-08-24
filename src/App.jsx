@@ -57,7 +57,7 @@ function App() {
 <li><Link to="/sensors">Sensors</Link></li>
 <li><Link to="/sleeping">Sleeping</Link></li>
 <li><Link to="/slingshot">Slingshot</Link></li>
-<li><Link to="/softbody">Softbody</Link></li>
+<li><Link to="/softbody">Soft Body</Link></li>
 <li><Link to="/sprites">Sprites</Link></li>
 <li><Link to="/stack">Stack</Link></li>
 <li><Link to="/staticfriction">Static Friction</Link></li>
