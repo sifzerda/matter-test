@@ -88,23 +88,18 @@ nav a:hover {
 
 /* --------------------- air hockey ------------------*/
 
-.game-window2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
-  background-color: #f0f0f0;
-  text-align: center; 
-}
-
 .start-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #f0f0f0;
-  height: 600px;
-  width: 800px;
+  min-height: 400px;
+  min-width: 500px;
 }
 
 .start-screen h1 {
