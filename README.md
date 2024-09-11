@@ -54,7 +54,7 @@ I also created some examples including ball pit, bubbles, mousetrap, jigsaw, and
 git clone https://github.com/sifzerda/matter-test.git
 cd matter-test
 npm install
-npm run start
+npm run dev
 ```
 
 ## (5) Usage
