@@ -22,7 +22,7 @@
 
 ## (1) Description
 
-The Matter js demo code is collected here in JSX format for personal reference. This creates a front-end site with demos accessible by nav tabs. It was built with React, Matter.js, Node, Javascript, and CSS. 
+The Matter js demo code is collected here and changed from vanilla JS to JSX format for personal reference. This creates a front-end site with demos accessible by nav tabs. It was built with React, Matter.js, Node, Javascript, and CSS. 
 
 I also created some examples including ball pit, bubbles, mousetrap, jigsaw, and bike.
 
