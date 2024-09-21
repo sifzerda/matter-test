@@ -44,7 +44,7 @@ I also created some examples including ball pit, bubbles, mousetrap, jigsaw, and
 
 ## (3) Visuals
 
-[Visit App deployed to ???](https://66c9775cff6a242bbc0f1342--matter-test.netlify.app/)
+[Visit App deployed to ???](https://matter-test.netlify.app/)
 
 ![matter-js-screenshot](???)
 
